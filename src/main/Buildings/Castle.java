@@ -1,0 +1,49 @@
+package main.Buildings;
+
+import main.Heroes.BasicHero;
+import main.Heroes.CastleHero;
+import main.Player.BasicPlayer;
+
+import java.util.Objects;
+
+public class Castle {
+    private static int identifiers = 0;
+    private int identifier;
+    private BasicPlayer playerOwner;
+    private BasicHero guardian;
+
+    public Castle(BasicPlayer player) {
+        identifier = identifiers;
+        identifiers++;
+        playerOwner = player;
+        guardian = new CastleHero(player);
+    }
+
+    public BasicPlayer getPlayerOwner() {
+        return playerOwner;
+    }
+
+    public BasicHero getGuardian() {
+        return guardian;
+    }
+
+    public int getIdentifier() {
+        return identifier;
+    }
+
+    @Override
+    public String toString() {
+        return "Замок (" + identifier + ")";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Castle castle)) return false;
+        return identifier == castle.identifier;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(identifier);
+    }
+}
