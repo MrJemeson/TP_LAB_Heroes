@@ -8,8 +8,10 @@ import labHeroesGame.heroes.BasicHero;
 import labHeroesGame.units.BasicUnit;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public abstract class BasicPlayer {
+    private Scanner scanner;
     private ArrayList<BasicHero> heroArmy;
     private String name;
     private int personalGold = 0;
@@ -23,6 +25,26 @@ public abstract class BasicPlayer {
 
     public void setCastle(Castle castle) {
         this.castle = castle;
+    }
+
+    public void setScanner(Scanner scanner) {
+        this.scanner = scanner;
+    }
+
+    public BasicPlayer(Scanner scanner) {
+        this.scanner = scanner;
+    }
+
+    public Scanner getScanner() {
+        return scanner;
+    }
+
+    public void setHeroArmy(ArrayList<BasicHero> heroArmy) {
+        this.heroArmy = heroArmy;
+    }
+
+    public void setPersonalTowers(ArrayList<Tower> personalTowers) {
+        this.personalTowers = personalTowers;
     }
 
     public ArrayList<BasicHero> getKilled() {

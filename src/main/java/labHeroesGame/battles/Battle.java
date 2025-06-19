@@ -190,37 +190,38 @@ public class Battle {
         }
     }
     protected boolean battleRound(){
-        int roundPhase = 1;
-        Render.displayMap(battlefield);
-        Render.displayBattleInfo(this);
-        ArrayList<BasicUnit> cloneAllUnits = (ArrayList<BasicUnit>) allUnits.clone();
-        for (int i = 0; i < cloneAllUnits.size(); i++){
-            if(!allUnits.contains(cloneAllUnits.get(i))) {
-                continue;
-            }
-            if(!cloneAllUnits.get(i).getHeroOwner().equals(cloneAllUnits.get(0).getHeroOwner())) {
-                roundPhase = 2;
-            }
-            switch (roundPhase) {
-                case 1 -> leftHero.getPlayerOwner().requestMoveUnit(this, leftHero, cloneAllUnits.get(i));
-                case 2 -> rightHero.getPlayerOwner().requestMoveUnit(this, rightHero, cloneAllUnits.get(i));
-            }
+        while(true) {
+            int roundPhase = 1;
             Render.displayMap(battlefield);
-            fillBattleInfo();
             Render.displayBattleInfo(this);
-            if (leftHero.getArmy().isEmpty() || checkWin()) {
-                if (checkWin()) {
-                    leftHero.getPlayerOwner().addPersonalGold(goldBank);
-                } else {
-                    rightHero.getPlayerOwner().addPersonalGold(goldBank);
-                }
+            if (leftHero.getArmy().isEmpty() || checkWin()){
                 return checkWin();
             }
+            ArrayList<BasicUnit> cloneAllUnits = (ArrayList<BasicUnit>) allUnits.clone();
+            for (int i = 0; i < cloneAllUnits.size(); i++){
+                if(!allUnits.contains(cloneAllUnits.get(i))) {
+                    continue;
+                }
+                if(!cloneAllUnits.get(i).getHeroOwner().equals(cloneAllUnits.get(0).getHeroOwner())) {
+                    roundPhase = 2;
+                }
+                switch (roundPhase) {
+                    case 1 -> leftHero.getPlayerOwner().requestMoveUnit(this, leftHero, cloneAllUnits.get(i));
+                    case 2 -> rightHero.getPlayerOwner().requestMoveUnit(this, rightHero, cloneAllUnits.get(i));
+                }
+                Render.displayMap(battlefield);
+                fillBattleInfo();
+                Render.displayBattleInfo(this);
+                if (leftHero.getArmy().isEmpty() || checkWin()) {
+                    if (checkWin()) {
+                        leftHero.getPlayerOwner().addPersonalGold(goldBank);
+                    } else {
+                        rightHero.getPlayerOwner().addPersonalGold(goldBank);
+                    }
+                    return checkWin();
+                }
+            }
+            specialEvent();
         }
-        specialEvent();
-        if (leftHero.getArmy().isEmpty() || checkWin()){
-            return checkWin();
-        }
-        return battleRound();
     }
 }

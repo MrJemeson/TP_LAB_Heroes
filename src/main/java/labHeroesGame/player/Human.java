@@ -9,6 +9,7 @@ import labHeroesGame.heroes.BasicHero;
 import labHeroesGame.units.BasicUnit;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Human extends BasicPlayer {
@@ -21,15 +22,24 @@ public class Human extends BasicPlayer {
         identifiers++;
     }
 
+
+    public Human(Scanner scanner){
+        super(scanner);
+        identifier = identifiers;
+        identifiers++;
+    }
+
     @Override
     public void requestMoveHero(Game game, BasicHero hero) {
-        Scanner scanner = new Scanner(System.in);
         Render.displayHeroMovementRequestMessage(hero, game.getHeroPlacement().get(hero));
         String input;
         while(true) {
-            input = scanner.next();
+            input = getScanner().next();
             if (IdConverter.isStringID(game.getMap(), input)) {
                 break;
+            }
+            if(Objects.equals(input, "skip")) {
+                return;
             }
             Render.displayWrongSquareID();
         }
@@ -41,21 +51,20 @@ public class Human extends BasicPlayer {
     @Override
     public void buyHero(Game game) {
         if(!getKilled().isEmpty()) {
-            Scanner scanner = new Scanner(System.in);
             Render.displayBuyingHeroMessage(this);
             int inputInt;
             String input;
             while (true) {
-                while(!scanner.hasNextInt()) {
-                    if(scanner.hasNext()) {
-                        input = scanner.next();
+                while(!getScanner().hasNextInt()) {
+                    if(getScanner().hasNext()) {
+                        input = getScanner().next();
                         if(input.length() == 1 && input.charAt(0) == 'n') {
                             return;
                         }
                     }
                     Render.displayWrongInputMessage();
                 }
-                inputInt = scanner.nextInt();
+                inputInt = getScanner().nextInt();
                 if(inputInt >= 1 && inputInt <= getKilled().size()) {
                     BasicHero hero = getKilled().get(inputInt-1);
                     if(hero.getPrice() < getPersonalGold()) {
@@ -84,13 +93,15 @@ public class Human extends BasicPlayer {
 
     @Override
     public void requestMoveUnit(Battle battle, BasicHero hero, BasicUnit unit) {
-        Scanner scanner = new Scanner(System.in);
         Render.displayUnitMovementRequestMessage(battle, unit, this);
         String input;
         while(true) {
-            input = scanner.next();
+            input = getScanner().next();
             if (IdConverter.isStringID(battle.getBattlefield(), input)) {
                 break;
+            }
+            if(Objects.equals(input, "skip")) {
+                return;
             }
             Render.displayWrongSquareID();
         }

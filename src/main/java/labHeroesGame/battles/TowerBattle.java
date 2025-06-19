@@ -9,6 +9,7 @@ import labHeroesGame.heroes.BasicHero;
 import labHeroesGame.units.BasicUnit;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class TowerBattle extends Battle{
     private final Tower tower;

@@ -11,9 +11,9 @@ import labHeroesGame.player.Human;
 import java.util.Scanner;
 
 public class ConfigureGame {
+    private static final Scanner scanner = new Scanner(System.in);
 
     public static BasicPlayer choosePlayer(int i){
-        Scanner scanner = new Scanner(System.in);
         Render.displayGameModeChoose();
         int input;
         while(true) {
@@ -32,14 +32,13 @@ public class ConfigureGame {
             Render.displayNewPlayerMessage(i, bot);
             return bot;
         } else {
-            Human human = new Human();
+            Human human = new Human(scanner);
             Render.displayNewPlayerMessage(i, human);
             return human;
         }
     }
 
-    public static boolean chooseMode(){
-        Scanner scanner = new Scanner(System.in);
+    public static boolean chooseMode(Scanner scanner){
         String input;
         while(true) {
             while(!scanner.hasNext()) {
@@ -61,7 +60,7 @@ public class ConfigureGame {
         BasicPlayer player1 = choosePlayer(1);
         BasicPlayer player2 = choosePlayer(2);
         Render.displayHonestPlayMessage();
-        if(chooseMode()) {
+        if(chooseMode(scanner)) {
             new ChampLight(player1);
         } else {
             new UltimateHero(player1);
