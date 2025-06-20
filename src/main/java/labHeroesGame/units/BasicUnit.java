@@ -121,7 +121,7 @@ public abstract class BasicUnit {
 
     public void upgradeHp(float multiplier) { hp = (int)(hp*multiplier);}
 
-    public void upgradePower(float multiplier) { hp = (int)(hp*multiplier);}
+    public void upgradePower(float multiplier) { power = (int)(power*multiplier);}
 
     public void upgradeReward(float multiplier) { reward = (int)(reward*multiplier); }
 

@@ -9,6 +9,7 @@ import labHeroesGame.heroes.BasicHero;
 import labHeroesGame.units.BasicUnit;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class TowerBattle extends Battle{
     private final Tower tower;
@@ -29,7 +30,7 @@ public class TowerBattle extends Battle{
     }
 
     @Override
-    protected void specialEvent() {
+    public void specialEvent() {
         ArrayList<Square> nearestEnemy = getBattlefield().findPathNoLimit("G4", getUnitsPlacement().get(getAllUnits().get(0)));
         for (int i = 1; i < getLeftHero().getArmy().size(); i++) {
             ArrayList<Square> curEnemy = getBattlefield().findPathNoLimit("G4", getUnitsPlacement().get(getAllUnits().get(i)));
@@ -46,7 +47,7 @@ public class TowerBattle extends Battle{
     }
 
     @Override
-    protected void placeUnits() {
+    public void placeUnits() {
         int x = 0;
         int y = 0;
         for (int i = 0; i < getLeftHero().getArmy().size(); i++) {

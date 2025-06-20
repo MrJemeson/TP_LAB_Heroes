@@ -124,7 +124,7 @@ public class Render {
     }
 
     public static void displayWrongSquareID() {
-        System.out.print("Такой клетки нет. Выберите клетку: ");
+        System.out.print("Некорректная клетка. Выберите клетку: ");
     }
 
     public static void displayBuyingHeroMessage(BasicPlayer player) {
