@@ -21,7 +21,7 @@ public class TowerHero extends BasicHero{
     public void refill() {
         getArmy().clear();
         addUnit(new BowGuy(5));
-        addUnit(new SpearGuy(10));
+        addUnit(new SpearGuy(10 + getPlayerOwner().getPersonalTowers().size()));
         addUnit(new CavalryGuy(5));
     }
 }

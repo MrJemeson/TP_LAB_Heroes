@@ -102,7 +102,12 @@ public class Game {
         }
     }
 
-
+    public void refillPlayerBuildings(BasicPlayer player) {
+        for(Tower tower : player.getPersonalTowers()) {
+            tower.refill();
+        }
+        player.getCastle().getGuardian().refill();
+    }
 
     public boolean gameRound() {
         while (true) {
@@ -194,7 +199,7 @@ public class Game {
             tower.getPlayerOwner().getPersonalTowers().remove(tower);
             start.getPeacefulOccupancy().getPlayerOwner().getPersonalTowers().add(tower);
             tower.setPlayerOwner(start.getPeacefulOccupancy().getPlayerOwner());
-            tower.refill();
+            refillPlayerBuildings(tower.getPlayerOwner());
             start.getPeacefulOccupancy().refill();
         } else {
             killHero(start);
@@ -241,6 +246,7 @@ public class Game {
                 if (battle.startBattle()) {
                     Render.displayBattleWinningMessage(hero);
                     killHero(start, target.getTowerReference(), true);
+
                 } else {
                     Render.displayBattleWinningMessage(target.getTowerReference());
                     killHero(start, target.getTowerReference(), false);
