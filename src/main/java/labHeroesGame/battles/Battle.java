@@ -61,7 +61,7 @@ public class Battle {
         return rightHero.getArmy().isEmpty();
     }
 
-    protected void specialEvent() {}
+    public void specialEvent() {}
 
     public int getGoldBank() {
         return goldBank;
@@ -165,7 +165,7 @@ public class Battle {
 
     }
 
-    protected void placeUnits() {
+    public void placeUnits() {
         int x = 0;
         int y = 0;
         for (int i = 0; i < leftHero.getArmy().size(); i++) {

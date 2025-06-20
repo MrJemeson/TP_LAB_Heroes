@@ -15,6 +15,7 @@ public class Tower {
         towerIdentifier =  towerIdentifiers;
         towerIdentifiers++;
         this.playerOwner = playerOwner;
+        playerOwner.getPersonalTowers().add(this);
         guardian = new TowerHero(playerOwner);
     }
 

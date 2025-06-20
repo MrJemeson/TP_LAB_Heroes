@@ -15,7 +15,7 @@ public class CastleBattle extends Battle{
     }
 
     @Override
-    protected void specialEvent() {
+    public void specialEvent() {
         if(roundCCount < 3){
             roundCCount++;
             Render.displayCastleSpecialEvent();

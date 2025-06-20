@@ -33,9 +33,10 @@ public class Human extends BasicPlayer {
     public void requestMoveHero(Game game, BasicHero hero) {
         Render.displayHeroMovementRequestMessage(hero, game.getHeroPlacement().get(hero));
         String input;
+        Square start = game.getMap().getSquare(game.getHeroPlacement().get(hero));
         while(true) {
             input = getScanner().next();
-            if (IdConverter.isStringID(game.getMap(), input)) {
+            if (IdConverter.isStringID(game.getMap(), input) && !game.getMap().findPathOrdinaryEXPERIMENTAL(start, game.getMap().getSquare(input)).isEmpty()) {
                 break;
             }
             if(Objects.equals(input, "skip")) {
@@ -43,7 +44,6 @@ public class Human extends BasicPlayer {
             }
             Render.displayWrongSquareID();
         }
-        Square start = game.getMap().getSquare(game.getHeroPlacement().get(hero));
         ArrayList<Square> preferredWay = game.getMap().findPathOrdinaryEXPERIMENTAL(start, game.getMap().getSquare(input));
         game.movingHero(hero, preferredWay);
     }
@@ -58,7 +58,10 @@ public class Human extends BasicPlayer {
                 while(!getScanner().hasNextInt()) {
                     if(getScanner().hasNext()) {
                         input = getScanner().next();
-                        if(input.length() == 1 && input.charAt(0) == 'n') {
+                        if(input.length() == 1 && (input.charAt(0) == 'n')) {
+                            return;
+                        }
+                        if(Objects.equals(input, "skip")) {
                             return;
                         }
                     }
@@ -95,9 +98,10 @@ public class Human extends BasicPlayer {
     public void requestMoveUnit(Battle battle, BasicHero hero, BasicUnit unit) {
         Render.displayUnitMovementRequestMessage(battle, unit, this);
         String input;
+        Square start = battle.getBattlefield().getSquare(battle.getUnitsPlacement().get(unit));
         while(true) {
             input = getScanner().next();
-            if (IdConverter.isStringID(battle.getBattlefield(), input)) {
+            if (IdConverter.isStringID(battle.getBattlefield(), input) && !battle.getBattlefield().findPathNoLimit(start, battle.getBattlefield().getSquare(input)).isEmpty()) {
                 break;
             }
             if(Objects.equals(input, "skip")) {
@@ -105,7 +109,6 @@ public class Human extends BasicPlayer {
             }
             Render.displayWrongSquareID();
         }
-        Square start = battle.getBattlefield().getSquare(battle.getUnitsPlacement().get(unit));
         ArrayList<Square> preferredWay = battle.getBattlefield().findPathOrdinaryEXPERIMENTAL(start, battle.getBattlefield().getSquare(input));
         if(preferredWay.isEmpty()) {
             preferredWay = battle.getBattlefield().findPathNoLimit(start, battle.getBattlefield().getSquare(input));

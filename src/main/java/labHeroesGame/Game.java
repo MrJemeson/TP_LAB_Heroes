@@ -63,14 +63,12 @@ public class Game {
         ArrayList<String> towersId = new ArrayList<>(Arrays.asList("C10", "G13", "K17", "R10", "N6", "K2"));
         for(int i = 0; i < 3; i++) {
             Tower tower  = new Tower(player1);
-            player1.getPersonalTowers().add(tower);
             allTowers.add(tower);
             towerPlacement.put(tower, towersId.get(i));
             map.getSquare(towersId.get(i)).setTowerReference(tower);
         }
         for(int i = 3; i < 6; i++) {
             Tower tower  = new Tower(player2);
-            player2.getPersonalTowers().add(tower);
             allTowers.add(tower);
             towerPlacement.put(tower, towersId.get(i));
             map.getSquare(towersId.get(i)).setTowerReference(tower);
@@ -92,7 +90,7 @@ public class Game {
         }
     }
 
-    private void placeHeroes(){
+    public void placeHeroes(){
         ArrayList<String> heroPlaces = new ArrayList<>(Arrays.asList("C17", "B17", "C18", "R2", "S2", "R1"));
         for(int i = 0; i < leftPlayer.getHeroArmy().size(); i++) {
             map.placeHero(heroPlaces.get(i), allHeroes.get(i));
@@ -122,7 +120,7 @@ public class Game {
                 Render.displayMap(map);
                 fillGameInfo();
                 Render.displayGameInfo(this);
-                if (!hero.getPlayerOwner().equals(allHeroes.get(0).getPlayerOwner())) {
+                if (!hero.getPlayerOwner().equals(getLeftPlayer())) {
                     roundPhase = 2;
                     Render.displayShop(rightPlayer);
                     rightPlayer.buyHero(this);
@@ -216,7 +214,7 @@ public class Game {
         Square start = getMap().getSquare(getHeroPlacement().get(hero));
         int actualSpeed = hero.getSpeed();
         for (Square i : preferredWay) {
-            if (i.isRoad()){
+            if (i.isRoad() && actualSpeed < hero.getSpeed()*2){
                 actualSpeed++;
             }
         }
