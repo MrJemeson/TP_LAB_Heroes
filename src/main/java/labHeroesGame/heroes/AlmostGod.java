@@ -11,7 +11,7 @@ public class AlmostGod extends BasicHero{
         super(player);
         setName("Почти Бог");
         setPrice(100);
-        setSpeed(10);
+        setSpeed(100);
         addUnit(new BowGuy(10));
         addUnit(new SpearGuy(15));
         addUnit(new CavalryGuy(10));
@@ -27,5 +27,8 @@ public class AlmostGod extends BasicHero{
         addUnit(new BowGuy(10));
         addUnit(new SpearGuy(15));
         addUnit(new CavalryGuy(10));
+        for(int i = 0; i < getArmy().size(); i++) {
+            getArmy().get(i).upgradeUnit(new float[] {2F, 2F, 2F, 2F});
+        }
     }
 }

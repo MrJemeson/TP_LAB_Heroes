@@ -21,7 +21,7 @@ public class UltimateHero extends BasicHero {
     public void refill() {
         getArmy().clear();
         addUnit(new BowGuy(10));
-        addUnit(new SpearGuy(15));
+        addUnit(new SpearGuy(15 + getPlayerOwner().getPersonalTowers().size()));
         addUnit(new CavalryGuy(10));
     }
 }

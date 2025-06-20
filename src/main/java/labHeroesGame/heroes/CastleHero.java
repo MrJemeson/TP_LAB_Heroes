@@ -11,7 +11,7 @@ public class CastleHero extends BasicHero {
         setPrice(0);
         setSpeed(0);
         addUnit(new BowGuy(5));
-        addUnit(new SpearGuy(10));
+        addUnit(new SpearGuy(10 + getPlayerOwner().getPersonalTowers().size()*3));
 //        addUnit(new CavalryGuy(5));
     }
 
@@ -19,7 +19,7 @@ public class CastleHero extends BasicHero {
     public void refill() {
         getArmy().clear();
         addUnit(new BowGuy(5));
-        addUnit(new SpearGuy(10));
+        addUnit(new SpearGuy(10 + getPlayerOwner().getPersonalTowers().size()*3));
 //        addUnit(new CavalryGuy(5));
     }
 }
