@@ -4,6 +4,7 @@ import labHeroesGame.Game;
 import labHeroesGame.Render;
 import labHeroesGame.battlefields.MapPreBuilds;
 import labHeroesGame.battlefields.squares.Square;
+import labHeroesGame.buildings.Tower;
 import labHeroesGame.heroes.AlmostGod;
 import labHeroesGame.heroes.BasicHero;
 import labHeroesGame.heroes.ChampLight;
@@ -120,6 +121,14 @@ public class GameTests {
         assertEquals(3,  game.getLeftPlayer().getHeroArmy().get(0).getArmy().size());
     }
 
+    @Test
+    public void testTowerEffect(){
+        assertEquals(13, game.getLeftPlayer().getPersonalTowers().get(0).getGuardian().getArmy().get(1).getAmount());
+        assertEquals(19, game.getLeftPlayer().getCastle().getGuardian().getArmy().get(1).getAmount());
+        new Tower(game.getLeftPlayer());
+        game.refillPlayerBuildings(game.getLeftPlayer());
+        assertEquals(14, game.getLeftPlayer().getPersonalTowers().get(0).getGuardian().getArmy().get(1).getAmount());
+    }
 
     @AfterEach
     public void cleanUpGame() {

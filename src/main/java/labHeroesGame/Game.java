@@ -75,6 +75,11 @@ public class Game {
         }
         allHeroes.addAll(player1.getHeroArmy());
         allHeroes.addAll(player2.getHeroArmy());
+        refillPlayerBuildings(player1);
+        refillPlayerBuildings(player2);
+        for (BasicHero hero : allHeroes) {
+            hero.refill();
+        }
     }
 
     public boolean startGame(){
