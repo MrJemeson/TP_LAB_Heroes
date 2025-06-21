@@ -13,6 +13,7 @@ import labHeroesGame.player.BasicPlayer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.logging.Level;
 
 public class Game {
     private final BasicPlayer leftPlayer;
@@ -250,14 +251,16 @@ public class Game {
                 Render.displayBattleStartMessage(hero, target.getTowerReference());
                 if (battle.startBattle()) {
                     Render.displayBattleWinningMessage(hero);
+                    LoggerConfig.getLogger().log(Level.WARNING, target.getTowerReference() + " lost the battle to " + hero + " and changed its owner to " + hero.getPlayerOwner());
                     killHero(start, target.getTowerReference(), true);
-
                 } else {
                     Render.displayBattleWinningMessage(target.getTowerReference());
+                    LoggerConfig.getLogger().log(Level.INFO, target.getTowerReference() + " won the battle against " + hero);
                     killHero(start, target.getTowerReference(), false);
                 }
             } else if (target.isBuilding() && target.getBuildingType().equals("Tower") && target.getTowerReference().getPlayerOwner().equals(hero.getPlayerOwner())) {
                 hero.refill();
+                LoggerConfig.getLogger().log(Level.FINE, hero + " refilled his army at " + target.getTowerReference());
             } else if (target.isBuilding() && target.getBuildingType().equals("Castle") && !target.getCastleReference().getPlayerOwner().equals(hero.getPlayerOwner())) {
                 Render.displayMap(map);
                 CastleBattle battle = new CastleBattle(hero, target.getCastleReference().getGuardian(), target.getCastleReference());
