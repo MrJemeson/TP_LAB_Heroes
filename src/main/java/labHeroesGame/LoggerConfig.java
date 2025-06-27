@@ -2,6 +2,7 @@ package labHeroesGame;
 
 import labHeroesGame.buildings.Tower;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
@@ -13,6 +14,8 @@ public class LoggerConfig {
 
     static  {
         try {
+            logger.setUseParentHandlers(false);
+            new File("logs").mkdirs();
             FileHandler handler = new FileHandler("logs/app.log", 1024 * 4, 3, true);
             SimpleFormatter formatter = new SimpleFormatter();
             handler.setFormatter(formatter);
