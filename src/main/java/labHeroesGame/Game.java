@@ -1,21 +1,24 @@
 package labHeroesGame;
 
 import labHeroesGame.battlefields.MainMap;
+import labHeroesGame.battlefields.preBuilds.PreBuild;
 import labHeroesGame.battlefields.squares.Square;
 import labHeroesGame.battles.Battle;
 import labHeroesGame.battles.CastleBattle;
 import labHeroesGame.battles.TowerBattle;
 import labHeroesGame.buildings.Castle;
 import labHeroesGame.buildings.Tower;
+import labHeroesGame.gameSaving.GameSaver;
 import labHeroesGame.heroes.BasicHero;
 import labHeroesGame.player.BasicPlayer;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.logging.Level;
 
-public class Game {
+public class Game  implements Serializable {
     private final BasicPlayer leftPlayer;
     private final BasicPlayer rightPlayer;
     private final MainMap map;
@@ -23,10 +26,19 @@ public class Game {
     private final ArrayList<Tower> allTowers;
     private final HashMap<BasicHero, String> heroPlacement;
     private final HashMap<Tower, String> towerPlacement;
+    private final PreBuild currentPreBuild;
+    private final User currentUser;
     private int winCheck = 0;
     private String gameInfo;
     private int roundCount = 0;
 
+    public PreBuild getCurrentPreBuild() {
+        return currentPreBuild;
+    }
+
+    public User getCurrentUser() {
+        return currentUser;
+    }
 
     public String getGameInfo() {
         return gameInfo;
@@ -47,32 +59,33 @@ public class Game {
         }
     }
 
-    public Game(BasicPlayer player1, BasicPlayer player2) {
+    public Game(BasicPlayer player1, BasicPlayer player2, PreBuild preBuild, User user) {
         leftPlayer = player1;
         rightPlayer = player2;
-        map = new MainMap();
+        currentPreBuild = preBuild;
+        currentUser = user;
+        map = new MainMap(preBuild);
         Castle castle1 = new Castle(player1);
         Castle castle2 = new Castle(player2);
-        map.getSquare("B18").setCastleReference(castle1);
-        map.getSquare("S1").setCastleReference(castle2);
+        map.getSquare(preBuild.getLeftCastle()).setCastleReference(castle1);
+        map.getSquare(preBuild.getRightCastle()).setCastleReference(castle2);
         player1.setCastle(castle1);
         player2.setCastle(castle2);
         allTowers = new ArrayList<>();
         allHeroes = new ArrayList<>();
         heroPlacement = new HashMap<>();
         towerPlacement = new HashMap<>();
-        ArrayList<String> towersId = new ArrayList<>(Arrays.asList("C10", "G13", "K17", "R10", "N6", "K2"));
         for(int i = 0; i < 3; i++) {
             Tower tower  = new Tower(player1);
             allTowers.add(tower);
-            towerPlacement.put(tower, towersId.get(i));
-            map.getSquare(towersId.get(i)).setTowerReference(tower);
+            towerPlacement.put(tower, preBuild.getLeftTowers().get(i));
+            map.getSquare(preBuild.getLeftTowers().get(i)).setTowerReference(tower);
         }
-        for(int i = 3; i < 6; i++) {
+        for(int i = 0; i < 3; i++) {
             Tower tower  = new Tower(player2);
             allTowers.add(tower);
-            towerPlacement.put(tower, towersId.get(i));
-            map.getSquare(towersId.get(i)).setTowerReference(tower);
+            towerPlacement.put(tower, preBuild.getRightTowers().get(i));
+            map.getSquare(preBuild.getRightTowers().get(i)).setTowerReference(tower);
         }
         allHeroes.addAll(player1.getHeroArmy());
         allHeroes.addAll(player2.getHeroArmy());
@@ -85,7 +98,7 @@ public class Game {
 
     public boolean startGame(){
         placeHeroes();
-        fillGameInfo();
+        GameSaver.saveGame(this, currentUser);
         if(gameRound()) {
             Render.displayWinningMessage(leftPlayer, roundCount);
             return true;
@@ -97,14 +110,14 @@ public class Game {
     }
 
     public void placeHeroes(){
-        ArrayList<String> heroPlaces = new ArrayList<>(Arrays.asList("C17", "B17", "C18", "R2", "S2", "R1"));
+        ArrayList<String> heroPlaces = new ArrayList<>(Arrays.asList(currentPreBuild.getLeftHeroPlacement(), currentPreBuild.getRightHeroPlacement()));
         for(int i = 0; i < leftPlayer.getHeroArmy().size(); i++) {
             map.placeHero(heroPlaces.get(i), allHeroes.get(i));
             heroPlacement.put(allHeroes.get(i), heroPlaces.get(i));
         }
         for(int i = leftPlayer.getHeroArmy().size(); i < leftPlayer.getHeroArmy().size() + rightPlayer.getHeroArmy().size(); i++) {
-            map.placeHero(heroPlaces.get(i+2), allHeroes.get(i));
-            heroPlacement.put(allHeroes.get(i), heroPlaces.get(i+2));
+            map.placeHero(heroPlaces.get(i), allHeroes.get(i));
+            heroPlacement.put(allHeroes.get(i), heroPlaces.get(i));
         }
     }
 
@@ -116,6 +129,7 @@ public class Game {
     }
 
     public boolean gameRound() {
+        fillGameInfo();
         while (true) {
             roundCount++;
             int roundPhase = 1;
@@ -142,18 +156,23 @@ public class Game {
                 }
                 switch (winCheck) {
                     case 1 -> {
+                        GameSaver.deleteAutoSave();
                         return true;
                     }
                     case 2 -> {
+                        GameSaver.deleteAutoSave();
                         return false;
                     }
                 }
+                GameSaver.saveGame(this, currentUser);
             }
             switch (winCheck) {
                 case 1 -> {
+                    GameSaver.deleteAutoSave();
                     return true;
                 }
                 case 2 -> {
+                    GameSaver.deleteAutoSave();
                     return false;
                 }
             }
@@ -229,6 +248,7 @@ public class Game {
                 actualSpeed++;
             }
         }
+        System.out.println(preferredWay);
         Square target = preferredWay.getLast();
         if(preferredWay.size() <= actualSpeed) {
             if(preferredWay.size() > 1) {

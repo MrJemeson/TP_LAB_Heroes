@@ -52,8 +52,8 @@ public class Bot extends BasicPlayer {
             Square place = game.getMap().getSquare(game.getTowerPlacement().get(game.getAllTowers().get(i)));
             objectOfInterest.add(new ObjectOfInterest(place, game.getAllTowers().get(i)));
         }
-        objectOfInterest.add(new ObjectOfInterest(game.getMap().getSquare("B18"), game.getLeftPlayer().getCastle()));
-        objectOfInterest.add(new ObjectOfInterest(game.getMap().getSquare("S1"), game.getRightPlayer().getCastle()));
+        objectOfInterest.add(new ObjectOfInterest(game.getMap().getSquare(game.getCurrentPreBuild().getLeftCastle()), game.getLeftPlayer().getCastle()));
+        objectOfInterest.add(new ObjectOfInterest(game.getMap().getSquare(game.getCurrentPreBuild().getRightCastle()), game.getRightPlayer().getCastle()));
         ArrayList<ObjectOfInterest> objOfInterest = objectOfInterest.stream()
                 .filter(curObj -> !curObj.getPlayerOwner().equals(hero.getPlayerOwner()))
                 .collect(Collectors.toCollection(ArrayList::new));

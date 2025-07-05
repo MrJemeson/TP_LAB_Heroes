@@ -2,10 +2,11 @@ package labHeroesGame.units;
 
 import labHeroesGame.heroes.BasicHero;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class BasicUnit {
+public abstract class BasicUnit implements Serializable {
     private String name;
     private BasicHero heroOwner;
     private int amount;

@@ -6,7 +6,9 @@ import labHeroesGame.buildings.Tower;
 import labHeroesGame.heroes.BasicHero;
 import labHeroesGame.units.BasicUnit;
 
-public class Square{
+import java.io.Serializable;
+
+public class Square implements Serializable {
     private BasicUnit occupancy;
     private BasicHero peacefulOccupancy;
     private boolean obstacle;
@@ -77,7 +79,7 @@ public class Square{
     }
 
     public boolean isRoad(){
-        return buildingType != null &&  buildingType.charAt(0) == '#';
+        return buildingType != null && !buildingType.isEmpty() && buildingType.charAt(0) == '#';
     }
 
     public void setObstacle() {
@@ -150,6 +152,20 @@ public class Square{
 
     public boolean isPeacefulOccupied() {
         return peacefulOccupancy != null;
+    }
+
+    public void setSmthng(String type){
+        if(type.equals("Tower") || type.equals("Castle")) {
+            setBuilding(type);
+        } else if (type.equals("#Road")) {
+            setRoad();
+        } else if (type.equals("Obstacle")) {
+            setObstacle();
+        } else if (type.equals("Nothing")) {
+            setObstacle(false);
+            buildingType = "";
+            building = false;
+        }
     }
 
     @Override

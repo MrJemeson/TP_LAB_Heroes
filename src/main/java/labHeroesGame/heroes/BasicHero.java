@@ -3,9 +3,10 @@ package labHeroesGame.heroes;
 import labHeroesGame.player.BasicPlayer;
 import labHeroesGame.units.BasicUnit;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public abstract class BasicHero {
+public abstract class BasicHero implements Serializable {
     static int heroIdentifiers = 0;
     private final int identifier;
     private String name;

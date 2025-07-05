@@ -3,7 +3,9 @@ package labHeroesGame.buildings;
 import labHeroesGame.heroes.TowerHero;
 import labHeroesGame.player.BasicPlayer;
 
-public class Tower {
+import java.io.Serializable;
+
+public class Tower implements Serializable {
     private static int towerIdentifiers = 0;
     private final int towerIdentifier;
     private int health = 100;

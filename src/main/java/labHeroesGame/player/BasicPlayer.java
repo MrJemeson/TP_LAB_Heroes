@@ -7,12 +7,13 @@ import labHeroesGame.buildings.Tower;
 import labHeroesGame.heroes.BasicHero;
 import labHeroesGame.units.BasicUnit;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public abstract class BasicPlayer {
-    private Scanner scanner;
-    private ArrayList<BasicHero> heroArmy;
+public abstract class BasicPlayer implements Serializable {
+    transient private Scanner scanner;
+    private ArrayList<BasicHero> heroArmy = new ArrayList<>();
     private String name;
     private int personalGold = 0;
     private ArrayList<Tower> personalTowers = new ArrayList<>();

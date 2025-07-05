@@ -4,9 +4,10 @@ import labHeroesGame.heroes.BasicHero;
 import labHeroesGame.heroes.CastleHero;
 import labHeroesGame.player.BasicPlayer;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Castle {
+public class Castle implements Serializable {
     private static int identifiers = 0;
     private int identifier;
     private BasicPlayer playerOwner;
