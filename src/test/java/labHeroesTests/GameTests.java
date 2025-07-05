@@ -36,7 +36,7 @@ public class GameTests {
         BasicPlayer player2 = new Bot();
         new ChampLight(player1);
         new AlmostGod(player2);
-        game = new Game(player1, player2, MapPreBuilds.getMainMapPreBuild(), new User("Tester"));
+        game = new Game(player1, player2, MapPreBuilds.getMainMapPreBuild(), new User("Tester", "test"));
     }
 
     @Test

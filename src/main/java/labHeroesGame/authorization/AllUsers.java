@@ -33,13 +33,17 @@ public class AllUsers {
         }
     }
 
-    public static boolean checkUser(String name){
+    public static int checkUser(String name, String password){
         for (User user: listOfUsers) {
             if (user.getName().equals(name)) {
-                return true;
+                if (user.getPassword().equals(password)) {
+                    return 1;
+                } else {
+                    return 2;
+                }
             }
         }
-        return false;
+        return 3;
     }
 
     public static User getUser(String name) {
