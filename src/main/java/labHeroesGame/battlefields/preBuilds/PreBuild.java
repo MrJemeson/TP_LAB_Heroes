@@ -1,6 +1,6 @@
 package labHeroesGame.battlefields.preBuilds;
 
-import labHeroesGame.User;
+import labHeroesGame.authorization.User;
 
 import java.io.Serializable;
 import java.util.ArrayList;

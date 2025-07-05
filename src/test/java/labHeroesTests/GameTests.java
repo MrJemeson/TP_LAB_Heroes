@@ -2,7 +2,7 @@ package labHeroesTests;
 
 import labHeroesGame.Game;
 import labHeroesGame.Render;
-import labHeroesGame.User;
+import labHeroesGame.authorization.User;
 import labHeroesGame.battlefields.preBuilds.MapPreBuilds;
 import labHeroesGame.battlefields.squares.Square;
 import labHeroesGame.buildings.Tower;

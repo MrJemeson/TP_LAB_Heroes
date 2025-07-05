@@ -1,5 +1,6 @@
 package labHeroesGame;
 
+import labHeroesGame.authorization.User;
 import labHeroesGame.battlefields.MainMap;
 import labHeroesGame.battlefields.preBuilds.PreBuild;
 import labHeroesGame.battlefields.squares.Square;
@@ -156,11 +157,11 @@ public class Game  implements Serializable {
                 }
                 switch (winCheck) {
                     case 1 -> {
-                        GameSaver.deleteAutoSave();
+                        GameSaver.deleteAutoSave(currentUser);
                         return true;
                     }
                     case 2 -> {
-                        GameSaver.deleteAutoSave();
+                        GameSaver.deleteAutoSave(currentUser);
                         return false;
                     }
                 }
@@ -168,11 +169,11 @@ public class Game  implements Serializable {
             }
             switch (winCheck) {
                 case 1 -> {
-                    GameSaver.deleteAutoSave();
+                    GameSaver.deleteAutoSave(currentUser);
                     return true;
                 }
                 case 2 -> {
-                    GameSaver.deleteAutoSave();
+                    GameSaver.deleteAutoSave(currentUser);
                     return false;
                 }
             }
@@ -248,7 +249,6 @@ public class Game  implements Serializable {
                 actualSpeed++;
             }
         }
-        System.out.println(preferredWay);
         Square target = preferredWay.getLast();
         if(preferredWay.size() <= actualSpeed) {
             if(preferredWay.size() > 1) {

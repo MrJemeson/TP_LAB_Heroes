@@ -1,9 +1,10 @@
 package labHeroesGame;
 
+import labHeroesGame.authorization.AllUsers;
+import labHeroesGame.authorization.User;
 import labHeroesGame.battlefields.preBuilds.MapCreator;
 import labHeroesGame.battlefields.preBuilds.MapPreBuilds;
 import labHeroesGame.battlefields.preBuilds.PreBuild;
-import labHeroesGame.battlefields.preBuilds.PreBuildLoader;
 import labHeroesGame.gameSaving.GameLoader;
 import labHeroesGame.heroes.ChampLight;
 import labHeroesGame.heroes.UltimateHero;
@@ -98,6 +99,27 @@ public class ConfigureGame {
         game.startGame();
     }
 
+    public static User authorizeUser() {
+        Render.displayAuthorization();
+        String input;
+        AllUsers.loadAllUsers();
+        while (true) {
+            input = scanner.next();
+            if(input.length() > 3 && !Character.isDigit(input.charAt(0))) {
+                if(AllUsers.checkUser(input)) {
+                    return AllUsers.getUser(input);
+                } else {
+                    User user = new User(input);
+                    AllUsers.getListOfUsers().add(user);
+                    AllUsers.saveAllUsers();
+                    return user;
+                }
+            } else {
+                Render.displayWrongInputMessage();
+            }
+        }
+    }
+
     public static void menu(User curUser) {
         int intInput;
         String input;
@@ -144,7 +166,7 @@ public class ConfigureGame {
 
     public static void main(String[] args) {
         new MapPreBuilds();
-        User curUser = new User("TestUser");
+        User curUser = authorizeUser();
         Render.displayOpenMessage();
         menu(curUser);
     }
