@@ -1,6 +1,8 @@
 package labHeroesGame;
 
 import labHeroesGame.battlefields.Battlefield;
+import labHeroesGame.battlefields.preBuilds.MapPreBuilds;
+import labHeroesGame.battlefields.preBuilds.PreBuild;
 import labHeroesGame.battlefields.squares.Square;
 import labHeroesGame.battles.Battle;
 import labHeroesGame.buildings.Castle;
@@ -70,13 +72,30 @@ public class Render {
     public static void displayOpenMessage() {
         System.out.println(" Добро пожаловать в *почти*\n" +
                 "Heroes of IU III: The Restoration of Programming\n" +
-                "Выберите режим игры для Игроков (1-Бот, 2-Человек)\n" +
                 "Предупреждение! Игра двух ботов по умолчанию приводит к бесконечной партии (и это не баг)\n"
              );
     }
 
+    public static void displayMenu(){
+        System.out.println("Меню.\n" +
+                "1) Начать игру\n" +
+                "2) Создать пребилд");
+
+    }
+
+    public static void displayPreBuildsToChoose(){
+        System.out.println("Выберите пребилд: \n 1) Классический пребилд");
+        if(!MapPreBuilds.getCustomPreBuilds().isEmpty()) {
+            int i = 2;
+            for(PreBuild preBuild: MapPreBuilds.getCustomPreBuilds()) {
+                System.out.println(" " + i++ + ") CUSTOM: " + preBuild + "\n");
+            }
+        }
+    }
+
     public static void displayGameModeChoose() {
-        System.out.print("Режим игрока: ");
+        System.out.print("Выберите режим игры для Игроков (1-Бот, 2-Человек)\n"  +
+                "Предупреждение! Игра двух ботов по умолчанию приводит к бесконечной партии (и это не баг)\n" +"Режим игрока: ");
     }
 
     public static void displayHonestPlayMessage() {
@@ -145,14 +164,6 @@ public class Render {
         System.out.println(player + " победил за " + roundCount + " ходов");
     }
 
-//    public static void displayBattleStartMessage(BasicHero hero1, BasicHero hero2) {
-//        System.out.println("Битва между: " + hero1 + " и " + hero2);
-//    }
-
-//    public static void displayBattleStartMessage(BasicHero hero1, Tower tower) {
-//        System.out.println("Битва между: " + hero1 + " и " + tower);
-//    }
-
     public static void displayBattleStartMessage(BasicHero hero1, Object object) {
         System.out.println("Битва между: " + hero1 + " и " + object);
     }
@@ -179,5 +190,52 @@ public class Render {
 
     public static void displayBotTargetMessage(BasicUnit unit, String id) {
         System.out.println("Цель: " + unit + " " + id);
+    }
+
+    public static void displayMapNameRequest(){
+        System.out.print("Название карты: ");
+    }
+
+    public static int displayObjectsToPlace(int castleNum, int towerNum, int heroPlacementNum) {
+        System.out.println("Выберите объект для установки: ");
+        int objInt = 0;
+        System.out.println(++objInt + " = Road" + ", " + ++objInt + " = Obstacle" + ", " + ++objInt + " = Nothing"
+                +((castleNum<2)?(", " + ++objInt + " = Castle"):("")) +
+                ((towerNum<6)?(", " + ++objInt + " = Tower"):("")) +
+                ((heroPlacementNum<2)?(", " + ++objInt + " = Hero spawn"):("")) +
+                ((castleNum == 2 && towerNum == 6 && heroPlacementNum == 2)?(" (end = выйти из режима создания пребилда"):("")));
+        return objInt;
+    }
+
+    public static void displaySquareToPlaceRequest(String type) {
+        System.out.print("Введите ячейку для размещения " + type + ": ");
+    }
+
+    public static void displayLineToPlaceRequest(String type) {
+        System.out.print("Введите ячейку/линию для размещения " + type + ": ");
+    }
+
+    public static void displayNotEnoughBuildingsCreated(int towerNum, int castleNum, int heroPlacementNum) {
+        System.out.println(("Выставлено недостаточно зданий следующих типов:") + ((castleNum<2)?(" Castle"):(" ")) + ((towerNum<6)?(" Tower"):("")) + ((heroPlacementNum<2)?(" HeroSpawn"):("")));
+    }
+
+    public static void displayObjectSideRequestMessage() {
+        System.out.println("Владелец: 1 = Первый игрок; 2 = Второй игрок");
+    }
+
+    public static void displayPreBuildSavedMessage() {
+        System.out.println("Пребилд сохранен");
+    }
+
+    public static void displayPreBuildLoaded(String name) {
+        System.out.println("Загружен пребилд: " + name);
+    }
+
+    public static void displayPreBuildLoadError(String name) {
+        System.out.println("Ошибка загрузки файла: " + name);
+    }
+
+    public static void displayFolderLoadError() {
+        System.out.println("Папка не найдена: savedPreBuilds");
     }
 }

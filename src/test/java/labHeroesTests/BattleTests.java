@@ -1,6 +1,6 @@
 package labHeroesTests;
 
-import labHeroesGame.battlefields.MapPreBuilds;
+import labHeroesGame.battlefields.preBuilds.MapPreBuilds;
 import labHeroesGame.battles.Battle;
 import labHeroesGame.battles.CastleBattle;
 import labHeroesGame.battles.TowerBattle;

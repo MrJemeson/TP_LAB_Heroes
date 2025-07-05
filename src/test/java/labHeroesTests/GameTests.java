@@ -2,7 +2,8 @@ package labHeroesTests;
 
 import labHeroesGame.Game;
 import labHeroesGame.Render;
-import labHeroesGame.battlefields.MapPreBuilds;
+import labHeroesGame.User;
+import labHeroesGame.battlefields.preBuilds.MapPreBuilds;
 import labHeroesGame.battlefields.squares.Square;
 import labHeroesGame.buildings.Tower;
 import labHeroesGame.heroes.AlmostGod;
@@ -35,7 +36,7 @@ public class GameTests {
         BasicPlayer player2 = new Bot();
         new ChampLight(player1);
         new AlmostGod(player2);
-        game = new Game(player1, player2);
+        game = new Game(player1, player2, MapPreBuilds.getMainMapPreBuild(), new User("Tester"));
     }
 
     @Test

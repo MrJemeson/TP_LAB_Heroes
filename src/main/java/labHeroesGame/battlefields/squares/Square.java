@@ -77,7 +77,7 @@ public class Square{
     }
 
     public boolean isRoad(){
-        return buildingType != null &&  buildingType.charAt(0) == '#';
+        return buildingType != null && !buildingType.isEmpty() && buildingType.charAt(0) == '#';
     }
 
     public void setObstacle() {
@@ -150,6 +150,20 @@ public class Square{
 
     public boolean isPeacefulOccupied() {
         return peacefulOccupancy != null;
+    }
+
+    public void setSmthng(String type){
+        if(type.equals("Tower") || type.equals("Castle")) {
+            setBuilding(type);
+        } else if (type.equals("#Road")) {
+            setRoad();
+        } else if (type.equals("Obstacle")) {
+            setObstacle();
+        } else if (type.equals("Nothing")) {
+            setObstacle(false);
+            buildingType = "";
+            building = false;
+        }
     }
 
     @Override
