@@ -1,7 +1,7 @@
 package labHeroesGame.battlefields.preBuilds;
 
 import labHeroesGame.Render;
-import labHeroesGame.User;
+import labHeroesGame.authorization.User;
 import labHeroesGame.battlefields.Battlefield;
 import labHeroesGame.battlefields.squares.IdConverter;
 import labHeroesGame.heroes.ChampLight;
@@ -56,6 +56,21 @@ public class MapCreator {
                     if(point1.charAt(0) == point2.charAt(0)) {
                         for(int i = Integer.min(point1Int.get(1), point2Int.get(1)); i < Integer.max(point1Int.get(1), point2Int.get(1)+1); i++) {
                             if(preBuild.getMapInfo().containsKey(IdConverter.convertToStringID(point1Int.get(0), i))) {
+                                if(preBuild.getMapInfo().get(IdConverter.convertToStringID(point1Int.get(0), i)).equals("Tower")) {
+                                    towerNum--;
+                                } else if (preBuild.getMapInfo().get(IdConverter.convertToStringID(point1Int.get(0), i)).equals("Castle")) {
+                                    castleNum--;
+                                } else if(preBuild.getMapInfo().get(IdConverter.convertToStringID(point1Int.get(0), i)).equals("HeroSpawn") && !type.equals("Road")) {
+                                    if (input.equals(preBuild.getLeftHeroPlacement())) {
+                                        battlefield.getSquare(input).setPeacefulOccupancy(null);
+                                        preBuild.setLeftHeroPlacement(null);
+                                        heroPlacementNum--;
+                                    } else if (input.equals(preBuild.getRightHeroPlacement())) {
+                                        battlefield.getSquare(input).setPeacefulOccupancy(null);
+                                        preBuild.setRightHeroPlacement(null);
+                                        heroPlacementNum--;
+                                    }
+                                }
                                 preBuild.getMapInfo().replace(IdConverter.convertToStringID(point1Int.get(0), i), type);
                             } else {
                                 preBuild.getMapInfo().put(IdConverter.convertToStringID(point1Int.get(0), i), type);
@@ -66,18 +81,28 @@ public class MapCreator {
                         return;
                     } else if (point1.substring(1).equals(point2.substring(1))) {
                         for(int i = Integer.min(point1Int.get(0), point2Int.get(0)); i < Integer.max(point1Int.get(0), point2Int.get(0)+1); i++) {
-                            if(preBuild.getMapInfo().containsKey(IdConverter.convertToStringID(i, point1Int.get(0)))) {
-                                if(preBuild.getMapInfo().get(IdConverter.convertToStringID(i, point1Int.get(0))).equals("Tower")) {
+                            if(preBuild.getMapInfo().containsKey(IdConverter.convertToStringID(i, point1Int.get(1)))) {
+                                if(preBuild.getMapInfo().get(IdConverter.convertToStringID(i, point1Int.get(1))).equals("Tower")) {
                                     towerNum--;
-                                } else if (preBuild.getMapInfo().get(IdConverter.convertToStringID(i, point1Int.get(0))).equals("Castle")) {
+                                } else if (preBuild.getMapInfo().get(IdConverter.convertToStringID(i, point1Int.get(1))).equals("Castle")) {
                                     castleNum--;
+                                } else if (preBuild.getMapInfo().get(IdConverter.convertToStringID(i, point1Int.get(1))).equals("HeroSpawn")) {
+                                    if (input.equals(preBuild.getLeftHeroPlacement())) {
+                                        battlefield.getSquare(input).setPeacefulOccupancy(null);
+                                        preBuild.setLeftHeroPlacement(null);
+                                        heroPlacementNum--;
+                                    } else if (input.equals(preBuild.getRightHeroPlacement())) {
+                                        battlefield.getSquare(input).setPeacefulOccupancy(null);
+                                        preBuild.setRightHeroPlacement(null);
+                                        heroPlacementNum--;
+                                    }
                                 }
-                                preBuild.getMapInfo().replace(IdConverter.convertToStringID(i, point1Int.get(0)), type);
+                                preBuild.getMapInfo().replace(IdConverter.convertToStringID(i, point1Int.get(1)), type);
                             } else {
-                                preBuild.getMapInfo().put(IdConverter.convertToStringID(i, point1Int.get(0)), type);
+                                preBuild.getMapInfo().put(IdConverter.convertToStringID(i, point1Int.get(1)), type);
                             }
-                            battlefield.getSquare(i, point1Int.get(0)).setSmthng("Nothing");
-                            battlefield.getSquare(i, point1Int.get(0)).setSmthng(type);
+                            battlefield.getSquare(i, point1Int.get(1)).setSmthng("Nothing");
+                            battlefield.getSquare(i, point1Int.get(1)).setSmthng(type);
 
                         }
                         return;
@@ -93,6 +118,16 @@ public class MapCreator {
                         towerNum--;
                     } else if (preBuild.getMapInfo().get(input).equals("Castle")) {
                         castleNum--;
+                    } else if(preBuild.getMapInfo().get(input).equals("HeroSpawn") && !type.equals("Road")) {
+                        if (input.equals(preBuild.getLeftHeroPlacement())) {
+                            battlefield.getSquare(input).setPeacefulOccupancy(null);
+                            preBuild.setLeftHeroPlacement(null);
+                            heroPlacementNum--;
+                        } else if (input.equals(preBuild.getRightHeroPlacement())) {
+                            battlefield.getSquare(input).setPeacefulOccupancy(null);
+                            preBuild.setRightHeroPlacement(null);
+                            heroPlacementNum--;
+                        }
                     }
                     preBuild.getMapInfo().replace(input, type);
                 } else {
@@ -219,7 +254,7 @@ public class MapCreator {
                     if(intInput > 0 && intInput <= objInt){
                         switch(intInput) {
                             case 1: {
-                                placeMultipleSquares(scanner, battlefield, preBuild, "#Road");
+                                placeMultipleSquares(scanner, battlefield, preBuild, "Road");
                                 break;
                             }
                             case 2: {

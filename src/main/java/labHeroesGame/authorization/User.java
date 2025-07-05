@@ -1,4 +1,4 @@
-package labHeroesGame;
+package labHeroesGame.authorization;
 
 import java.io.Serializable;
 

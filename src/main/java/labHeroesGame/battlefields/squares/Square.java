@@ -75,11 +75,11 @@ public class Square implements Serializable {
     public void setRoad() {
         this.obstacle = false;
         this.building = false;
-        buildingType = "#Road";
+        buildingType = "Road";
     }
 
     public boolean isRoad(){
-        return buildingType != null && !buildingType.isEmpty() && buildingType.charAt(0) == '#';
+        return buildingType != null && !buildingType.isEmpty() && buildingType.charAt(0) == 'R';
     }
 
     public void setObstacle() {
@@ -157,7 +157,7 @@ public class Square implements Serializable {
     public void setSmthng(String type){
         if(type.equals("Tower") || type.equals("Castle")) {
             setBuilding(type);
-        } else if (type.equals("#Road")) {
+        } else if (type.equals("Road")) {
             setRoad();
         } else if (type.equals("Obstacle")) {
             setObstacle();

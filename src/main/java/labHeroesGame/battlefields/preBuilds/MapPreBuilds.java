@@ -37,8 +37,8 @@ public class MapPreBuilds {
         mainMapPreBuild.getRightTowers().add("N6");
         mainMapPreBuild.getMapInfo().put("B18","Castle");
         mainMapPreBuild.setLeftCastle("B18");
-        mainMapPreBuild.getMapInfo().put("B17","#Road");
-        mainMapPreBuild.getMapInfo().put("C18","#Road");
+        mainMapPreBuild.getMapInfo().put("B17","Road");
+        mainMapPreBuild.getMapInfo().put("C18","Road");
         mainMapPreBuild.getMapInfo().put("C10","Tower");
         mainMapPreBuild.getLeftTowers().add("C10");
         mainMapPreBuild.getMapInfo().put("K2","Tower");
@@ -49,8 +49,8 @@ public class MapPreBuilds {
         mainMapPreBuild.getRightTowers().add("R10");
         mainMapPreBuild.getMapInfo().put("S1","Castle");
         mainMapPreBuild.setRightCastle("S1");
-        mainMapPreBuild.getMapInfo().put("S2","#Road");
-        mainMapPreBuild.getMapInfo().put("R1","#Road");
+        mainMapPreBuild.getMapInfo().put("S2","Road");
+        mainMapPreBuild.getMapInfo().put("R1","Road");
         mainMapPreBuild.setLeftHeroPlacement("C17");
         mainMapPreBuild.setRightHeroPlacement("R2");
         int x, y;
@@ -73,39 +73,39 @@ public class MapPreBuilds {
             x = 2;
             y = i;
             if(!mainMapPreBuild.getMapInfo().containsKey(IdConverter.convertToStringID(y,19 - y)) || !mainMapPreBuild.getMapInfo().get(IdConverter.convertToStringID(y, 19 - y)).equals("Tower")) {
-                mainMapPreBuild.getMapInfo().put(IdConverter.convertToStringID(y, 19 - y), "#Road");
-                mainMapPreBuild.getMapInfo().put(IdConverter.convertToStringID(y, 19 - y - 1), "#Road");
-                mainMapPreBuild.getMapInfo().put(IdConverter.convertToStringID(y, 19 - y + 1), "#Road");
+                mainMapPreBuild.getMapInfo().put(IdConverter.convertToStringID(y, 19 - y), "Road");
+                mainMapPreBuild.getMapInfo().put(IdConverter.convertToStringID(y, 19 - y - 1), "Road");
+                mainMapPreBuild.getMapInfo().put(IdConverter.convertToStringID(y, 19 - y + 1), "Road");
             } else {
                 if(mainMapPreBuild.getMapInfo().get(IdConverter.convertToStringID(y,19 - y)).equals("Tower")) {
                     for(int j = i-1; j < i+2; j++ ) {
                         for (int k = 19 - i - 1; k < 19 - i + 2; k++) {
                             if (!mainMapPreBuild.getMapInfo().containsKey(IdConverter.convertToStringID(k, j))) {
-                                mainMapPreBuild.getMapInfo().put(IdConverter.convertToStringID(k, j), "#Road");
+                                mainMapPreBuild.getMapInfo().put(IdConverter.convertToStringID(k, j), "Road");
                             }
                         }
                     }
                 }
             }
             if(!mainMapPreBuild.getMapInfo().containsKey(IdConverter.convertToStringID(x, y)) || !mainMapPreBuild.getMapInfo().get(IdConverter.convertToStringID(x, y)).equals("Tower")){
-                mainMapPreBuild.getMapInfo().put(IdConverter.convertToStringID(x, y), "#Road");
-                mainMapPreBuild.getMapInfo().put(IdConverter.convertToStringID(y, x), "#Road");
+                mainMapPreBuild.getMapInfo().put(IdConverter.convertToStringID(x, y), "Road");
+                mainMapPreBuild.getMapInfo().put(IdConverter.convertToStringID(y, x), "Road");
                 x = 17;
-                mainMapPreBuild.getMapInfo().put(IdConverter.convertToStringID(x, y), "#Road");
-                mainMapPreBuild.getMapInfo().put(IdConverter.convertToStringID(y, x), "#Road");
+                mainMapPreBuild.getMapInfo().put(IdConverter.convertToStringID(x, y), "Road");
+                mainMapPreBuild.getMapInfo().put(IdConverter.convertToStringID(y, x), "Road");
             }
             else{
                 for(int j = i-1; j < i+2; j++ ){
                     for(int k = x - 1; k < x + 2; k++){
                         if(!mainMapPreBuild.getMapInfo().containsKey(IdConverter.convertToStringID(k, j)) || !mainMapPreBuild.getMapInfo().get(IdConverter.convertToStringID(k, j)).equals("Tower")) {
-                            mainMapPreBuild.getMapInfo().put(IdConverter.convertToStringID(k, j), "#Road");
-                            mainMapPreBuild.getMapInfo().put(IdConverter.convertToStringID(j, k), "#Road");
+                            mainMapPreBuild.getMapInfo().put(IdConverter.convertToStringID(k, j), "Road");
+                            mainMapPreBuild.getMapInfo().put(IdConverter.convertToStringID(j, k), "Road");
                         }
                     }
                     for(int k = x + 14; k < x + 17; k++){
                         if(!mainMapPreBuild.getMapInfo().containsKey(IdConverter.convertToStringID(k, j)) || !mainMapPreBuild.getMapInfo().get(IdConverter.convertToStringID(k, j)).equals("Tower")) {
-                            mainMapPreBuild.getMapInfo().put(IdConverter.convertToStringID(k, j), "#Road");
-                            mainMapPreBuild.getMapInfo().put(IdConverter.convertToStringID(j, k), "#Road");
+                            mainMapPreBuild.getMapInfo().put(IdConverter.convertToStringID(k, j), "Road");
+                            mainMapPreBuild.getMapInfo().put(IdConverter.convertToStringID(j, k), "Road");
                         }
                     }
                 }
@@ -148,7 +148,7 @@ public class MapPreBuilds {
         for(String id : preBuild.keySet()) {
             if(Objects.equals(preBuild.get(id), "Tower") || Objects.equals(preBuild.get(id), "Castle")){
                 battlefield.setBuilding(id, preBuild.get(id));
-            } else if (Objects.equals(preBuild.get(id), "#Road")) {
+            } else if (Objects.equals(preBuild.get(id), "Road")) {
                 battlefield.setRoad(id);
             } else if (Objects.equals(preBuild.get(id), "Obstacle")) {
                 battlefield.setObstacle(id);

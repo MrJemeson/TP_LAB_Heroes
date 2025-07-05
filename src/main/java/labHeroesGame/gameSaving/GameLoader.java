@@ -1,7 +1,7 @@
 package labHeroesGame.gameSaving;
 
 import labHeroesGame.Game;
-import labHeroesGame.User;
+import labHeroesGame.authorization.User;
 
 import java.io.File;
 import java.io.FileInputStream;

@@ -1,5 +1,6 @@
 package labHeroesGame;
 
+import labHeroesGame.authorization.User;
 import labHeroesGame.battlefields.Battlefield;
 import labHeroesGame.battlefields.preBuilds.MapPreBuilds;
 import labHeroesGame.battlefields.preBuilds.PreBuild;
@@ -83,6 +84,10 @@ public class Render {
                 "2) Создать пребилд\n" +
                 ((GameLoader.hasAutoSave(curUser))?("3) Загрузить игру\n"):("")));
 
+    }
+
+    public static void displayAuthorization() {
+        System.out.print("Введите имя пользователя: ");
     }
 
     public static void displayPreBuildsToChoose(){
@@ -205,7 +210,7 @@ public class Render {
                 +((castleNum<2)?(", " + ++objInt + " = Castle"):("")) +
                 ((towerNum<6)?(", " + ++objInt + " = Tower"):("")) +
                 ((heroPlacementNum<2)?(", " + ++objInt + " = Hero spawn"):("")) +
-                ((castleNum == 2 && towerNum == 6 && heroPlacementNum == 2)?(" (end = выйти из режима создания пребилда"):("")));
+                ((castleNum == 2 && towerNum == 6 && heroPlacementNum == 2)?(" (end = выйти из режима создания пребилда)"):("")));
         return objInt;
     }
 
