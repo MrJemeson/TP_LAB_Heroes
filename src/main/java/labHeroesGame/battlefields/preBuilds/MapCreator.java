@@ -285,6 +285,7 @@ public class MapCreator {
                                 } else {
                                     Render.displayWrongInputMessage();
                                 }
+                                break;
                             }
                             case 6: {
                                 if(castleNum < 2 && towerNum < 6 && heroPlacementNum < 2) {
@@ -292,6 +293,7 @@ public class MapCreator {
                                 } else {
                                     Render.displayWrongInputMessage();
                                 }
+                                break;
                             }
                         }
                     }

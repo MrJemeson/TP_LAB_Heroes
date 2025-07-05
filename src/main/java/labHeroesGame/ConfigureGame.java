@@ -15,7 +15,7 @@ import labHeroesGame.player.Human;
 import java.util.Scanner;
 
 public class ConfigureGame {
-    private static final Scanner scanner = new Scanner(System.in);
+    private static Scanner scanner = new Scanner(System.in);
 
     public static BasicPlayer choosePlayer(int i){
         Render.displayGameModeChoose();
@@ -77,7 +77,7 @@ public class ConfigureGame {
             } else{
                 input = scanner.next();
                 if(input.equals("end")){
-                    System.exit(0);
+                    return null;
                 }
                 Render.displayWrongInputMessage();
             }
@@ -95,24 +95,40 @@ public class ConfigureGame {
         }
         new ChampLight(player2);
         Render.displayNewGameMessage(player1, player2);
-        Game game = new Game(player1, player2, choosePreBuild(), curUser);
+        PreBuild preBuild = choosePreBuild();
+        if (preBuild == null) {
+            return;
+        }
+        Game game = new Game(player1, player2, preBuild, curUser);
         game.startGame();
     }
 
     public static User authorizeUser() {
-        Render.displayAuthorization();
-        String input;
+        String inputLogin;
+        String inputPassword;
         AllUsers.loadAllUsers();
         while (true) {
-            input = scanner.next();
-            if(input.length() > 3 && !Character.isDigit(input.charAt(0))) {
-                if(AllUsers.checkUser(input)) {
-                    return AllUsers.getUser(input);
-                } else {
-                    User user = new User(input);
-                    AllUsers.getListOfUsers().add(user);
-                    AllUsers.saveAllUsers();
-                    return user;
+            Render.displayUserAuthorization();
+            inputLogin = scanner.next();
+            if(inputLogin.equals("skip")) {
+                return null;
+            }
+            if(inputLogin.length() > 3 && !Character.isDigit(inputLogin.charAt(0))) {
+                Render.displayPasswordAuthorization();
+                inputPassword = scanner.next();
+                int userChecker = AllUsers.checkUser(inputLogin, inputPassword);
+                switch(userChecker) {
+                    case 1: return AllUsers.getUser(inputLogin);
+                    case 2: {
+                        Render.displayWrongInputMessage();
+                        continue;
+                    }
+                    case 3: {
+                        User user = new User(inputLogin, inputPassword);
+                        AllUsers.getListOfUsers().add(user);
+                        AllUsers.saveAllUsers();
+                        return user;
+                    }
                 }
             } else {
                 Render.displayWrongInputMessage();
@@ -160,13 +176,18 @@ public class ConfigureGame {
 
             }
         }
+    }
 
-
+    public static void setScanner(Scanner scanner) {
+        ConfigureGame.scanner = scanner;
     }
 
     public static void main(String[] args) {
         new MapPreBuilds();
         User curUser = authorizeUser();
+        if (curUser == null) {
+            return;
+        }
         Render.displayOpenMessage();
         menu(curUser);
     }

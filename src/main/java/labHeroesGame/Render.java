@@ -86,8 +86,12 @@ public class Render {
 
     }
 
-    public static void displayAuthorization() {
-        System.out.print("Введите имя пользователя: ");
+    public static void displayUserAuthorization() {
+        System.out.print("\nВведите имя пользователя: ");
+    }
+
+    public static void displayPasswordAuthorization(){
+        System.out.print("Введите пароль: ");
     }
 
     public static void displayPreBuildsToChoose(){
