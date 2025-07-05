@@ -8,15 +8,17 @@ import labHeroesGame.battles.CastleBattle;
 import labHeroesGame.battles.TowerBattle;
 import labHeroesGame.buildings.Castle;
 import labHeroesGame.buildings.Tower;
+import labHeroesGame.gameSaving.GameSaver;
 import labHeroesGame.heroes.BasicHero;
 import labHeroesGame.player.BasicPlayer;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.logging.Level;
 
-public class Game {
+public class Game  implements Serializable {
     private final BasicPlayer leftPlayer;
     private final BasicPlayer rightPlayer;
     private final MainMap map;
@@ -96,7 +98,7 @@ public class Game {
 
     public boolean startGame(){
         placeHeroes();
-        fillGameInfo();
+        GameSaver.saveGame(this, currentUser);
         if(gameRound()) {
             Render.displayWinningMessage(leftPlayer, roundCount);
             return true;
@@ -127,6 +129,7 @@ public class Game {
     }
 
     public boolean gameRound() {
+        fillGameInfo();
         while (true) {
             roundCount++;
             int roundPhase = 1;
@@ -153,18 +156,23 @@ public class Game {
                 }
                 switch (winCheck) {
                     case 1 -> {
+                        GameSaver.deleteAutoSave();
                         return true;
                     }
                     case 2 -> {
+                        GameSaver.deleteAutoSave();
                         return false;
                     }
                 }
+                GameSaver.saveGame(this, currentUser);
             }
             switch (winCheck) {
                 case 1 -> {
+                    GameSaver.deleteAutoSave();
                     return true;
                 }
                 case 2 -> {
+                    GameSaver.deleteAutoSave();
                     return false;
                 }
             }

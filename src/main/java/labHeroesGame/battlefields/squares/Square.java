@@ -6,7 +6,9 @@ import labHeroesGame.buildings.Tower;
 import labHeroesGame.heroes.BasicHero;
 import labHeroesGame.units.BasicUnit;
 
-public class Square{
+import java.io.Serializable;
+
+public class Square implements Serializable {
     private BasicUnit occupancy;
     private BasicHero peacefulOccupancy;
     private boolean obstacle;

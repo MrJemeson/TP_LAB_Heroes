@@ -7,6 +7,7 @@ import labHeroesGame.battlefields.squares.Square;
 import labHeroesGame.battles.Battle;
 import labHeroesGame.buildings.Castle;
 import labHeroesGame.buildings.Tower;
+import labHeroesGame.gameSaving.GameLoader;
 import labHeroesGame.heroes.BasicHero;
 import labHeroesGame.player.BasicPlayer;
 import labHeroesGame.units.BasicUnit;
@@ -76,10 +77,11 @@ public class Render {
              );
     }
 
-    public static void displayMenu(){
+    public static void displayMenu(User curUser){
         System.out.println("Меню.\n" +
                 "1) Начать игру\n" +
-                "2) Создать пребилд");
+                "2) Создать пребилд\n" +
+                ((GameLoader.hasAutoSave(curUser))?("3) Загрузить игру\n"):("")));
 
     }
 
@@ -237,5 +239,9 @@ public class Render {
 
     public static void displayFolderLoadError() {
         System.out.println("Папка не найдена: savedPreBuilds");
+    }
+
+    public static void displayAutoSaveMessage(){
+        System.out.println("Автосохранение выполнено.");
     }
 }

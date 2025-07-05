@@ -6,9 +6,10 @@ import labHeroesGame.battlefields.squares.Square;
 import labHeroesGame.heroes.BasicHero;
 import labHeroesGame.units.BasicUnit;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Battlefield {
+public class Battlefield implements Serializable {
     private final int size;
 
     public BasicUnit unitOnSquare(Square square) {

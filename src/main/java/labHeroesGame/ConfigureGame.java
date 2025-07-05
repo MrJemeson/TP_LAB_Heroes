@@ -4,6 +4,7 @@ import labHeroesGame.battlefields.preBuilds.MapCreator;
 import labHeroesGame.battlefields.preBuilds.MapPreBuilds;
 import labHeroesGame.battlefields.preBuilds.PreBuild;
 import labHeroesGame.battlefields.preBuilds.PreBuildLoader;
+import labHeroesGame.gameSaving.GameLoader;
 import labHeroesGame.heroes.ChampLight;
 import labHeroesGame.heroes.UltimateHero;
 import labHeroesGame.player.BasicPlayer;
@@ -101,7 +102,7 @@ public class ConfigureGame {
         int intInput;
         String input;
         while (true) {
-            Render.displayMenu();
+            Render.displayMenu(curUser);
             if(scanner.hasNextInt()) {
                 intInput = scanner.nextInt();
                 switch (intInput){
@@ -112,6 +113,18 @@ public class ConfigureGame {
                     case 2: {
                         MapCreator.createPreBuild(scanner, curUser);
                         break;
+                    }
+                    case 3: {
+                        if(GameLoader.hasAutoSave(curUser)) {
+                            Game game = GameLoader.loadSave(curUser);
+                            if(game.getLeftPlayer() instanceof Human) {
+                                game.getLeftPlayer().setScanner(scanner);
+                            } else if(game.getRightPlayer() instanceof Human) {
+                                game.getRightPlayer().setScanner(scanner);
+                            }
+                            game.gameRound();
+
+                        }
                     }
                     default: Render.displayWrongInputMessage();
                 }
