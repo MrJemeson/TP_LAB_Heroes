@@ -6,6 +6,7 @@ import labHeroesGame.buildings.Tower;
 import labHeroesGame.heroes.BasicHero;
 import labHeroesGame.units.BasicUnit;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 public class Square implements Serializable {
@@ -21,6 +22,9 @@ public class Square implements Serializable {
     private Square leftSquare;
     private Square rightSquare;
     private int gold = 0;
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
 
     public Square(boolean obstacle) {

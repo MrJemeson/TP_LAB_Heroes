@@ -6,11 +6,15 @@ import labHeroesGame.battlefields.squares.Square;
 import labHeroesGame.heroes.BasicHero;
 import labHeroesGame.units.BasicUnit;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
 
 public class Battlefield implements Serializable {
     private final int size;
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     public BasicUnit unitOnSquare(Square square) {
         if (square.isOccupied()) {

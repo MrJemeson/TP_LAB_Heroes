@@ -9,10 +9,13 @@ import labHeroesGame.battles.CastleBattle;
 import labHeroesGame.battles.TowerBattle;
 import labHeroesGame.buildings.Castle;
 import labHeroesGame.buildings.Tower;
+import labHeroesGame.gameRecords.GameRecord;
+import labHeroesGame.gameRecords.GameRecords;
 import labHeroesGame.gameSaving.GameSaver;
 import labHeroesGame.heroes.BasicHero;
 import labHeroesGame.player.BasicPlayer;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,6 +35,9 @@ public class Game  implements Serializable {
     private int winCheck = 0;
     private String gameInfo;
     private int roundCount = 0;
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     public PreBuild getCurrentPreBuild() {
         return currentPreBuild;
@@ -102,10 +108,12 @@ public class Game  implements Serializable {
         GameSaver.saveGame(this, currentUser);
         if(gameRound()) {
             Render.displayWinningMessage(leftPlayer, roundCount);
+            GameRecords.addRecord(new GameRecord(currentUser, roundCount, leftPlayer, rightPlayer));
             return true;
         }
         else {
             Render.displayWinningMessage(rightPlayer, roundCount);
+            GameRecords.addRecord(new GameRecord(currentUser, roundCount,  rightPlayer, leftPlayer));
             return false;
         }
     }

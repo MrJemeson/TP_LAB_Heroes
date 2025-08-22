@@ -8,6 +8,8 @@ import labHeroesGame.battlefields.squares.Square;
 import labHeroesGame.battles.Battle;
 import labHeroesGame.buildings.Castle;
 import labHeroesGame.buildings.Tower;
+import labHeroesGame.gameRecords.GameRecord;
+import labHeroesGame.gameRecords.GameRecords;
 import labHeroesGame.gameSaving.GameLoader;
 import labHeroesGame.heroes.BasicHero;
 import labHeroesGame.player.BasicPlayer;
@@ -79,11 +81,13 @@ public class Render {
     }
 
     public static void displayMenu(User curUser){
+        int i = 3;
         System.out.println("Меню.\n" +
                 "1) Начать игру\n" +
                 "2) Создать пребилд\n" +
-                ((GameLoader.hasAutoSave(curUser))?("3) Загрузить игру\n"):("")));
-
+                ((!MapPreBuilds.getCustomPreBuilds().stream().filter(x -> x.getUserCreator() == curUser).toList().isEmpty())?(i++ + ") Изменить пребилд\n"):("")) +
+                ((GameLoader.hasAutoSave(curUser))?(i++ + ") Загрузить игру\n"):("")) +
+                ((GameRecords.getAllRecords().isEmpty())?(""):(i + ") Показать таблицу лидеров\n")));
     }
 
     public static void displayUserAuthorization() {
@@ -94,10 +98,10 @@ public class Render {
         System.out.print("Введите пароль: ");
     }
 
-    public static void displayPreBuildsToChoose(){
-        System.out.println("Выберите пребилд: \n 1) Классический пребилд");
+    public static void displayPreBuildsToChoose(boolean isGame){
+        System.out.println("Выберите пребилд:" + ((isGame)?("\n 1) Классический пребилд"):("")));
         if(!MapPreBuilds.getCustomPreBuilds().isEmpty()) {
-            int i = 2;
+            int i = 2 - ((isGame)?(0):(1));
             for(PreBuild preBuild: MapPreBuilds.getCustomPreBuilds()) {
                 System.out.println(" " + i++ + ") CUSTOM: " + preBuild + "\n");
             }
@@ -252,5 +256,12 @@ public class Render {
 
     public static void displayAutoSaveMessage(){
         System.out.println("Автосохранение выполнено.");
+    }
+
+    public static void displayRecords() {
+        int i = 1;
+        for (GameRecord gameRecord: GameRecords.getAllRecords()) {
+            System.out.println(i++ + ")" + gameRecord.getUserRecord() + ": " + gameRecord.getLeftPlayer() + " победил " + gameRecord.getRightPlayer() + " за " + gameRecord.getNumOfRounds() + " ходов.");
+        }
     }
 }

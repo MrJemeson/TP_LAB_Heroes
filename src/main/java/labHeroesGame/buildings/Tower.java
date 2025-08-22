@@ -3,6 +3,7 @@ package labHeroesGame.buildings;
 import labHeroesGame.heroes.TowerHero;
 import labHeroesGame.player.BasicPlayer;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 public class Tower implements Serializable {
@@ -12,6 +13,9 @@ public class Tower implements Serializable {
     private int damage = 20;
     private BasicPlayer playerOwner;
     private TowerHero guardian;
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     public Tower(BasicPlayer playerOwner){
         towerIdentifier =  towerIdentifiers;

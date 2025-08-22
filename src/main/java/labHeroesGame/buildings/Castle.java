@@ -4,6 +4,7 @@ import labHeroesGame.heroes.BasicHero;
 import labHeroesGame.heroes.CastleHero;
 import labHeroesGame.player.BasicPlayer;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -12,6 +13,9 @@ public class Castle implements Serializable {
     private int identifier;
     private BasicPlayer playerOwner;
     private BasicHero guardian;
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     public Castle(BasicPlayer player) {
         identifier = identifiers;

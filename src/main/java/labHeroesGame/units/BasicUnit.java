@@ -2,6 +2,7 @@ package labHeroesGame.units;
 
 import labHeroesGame.heroes.BasicHero;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
@@ -16,6 +17,9 @@ public abstract class BasicUnit implements Serializable {
     private int rewardSingle;
     private int reward;
     private int range;
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     public List<Integer> showStats(){
         return Arrays.asList(speed, power, hp, rewardSingle, range);

@@ -226,25 +226,8 @@ public class MapCreator {
         }
     }
 
-    public static void createPreBuild(Scanner scanner, User user) {
-        Render.displayMapNameRequest();
-        ArrayList<String> existingNames = MapPreBuilds.getPreBuildNames();
+    public static void placeObj(Scanner scanner, PreBuild preBuild, Battlefield battlefield) {
         String input;
-        while(true) {
-            input = scanner.next();
-            if(Objects.equals(input, "skip")) {
-                return;
-            }
-            if(input.length()>3 && !existingNames.contains(input)){
-                break;
-            }
-            Render.displayWrongInputMessage();
-        }
-        PreBuild preBuild = new PreBuild(input, user);
-        castleNum = 0;
-        towerNum = 0;
-        heroPlacementNum = 0;
-        Battlefield battlefield = new Battlefield(20);
         while(true){
             Render.displayMap(battlefield);
             int objInt = Render.displayObjectsToPlace(castleNum, towerNum, heroPlacementNum);
@@ -268,33 +251,22 @@ public class MapCreator {
                             case 4: {
                                 if(castleNum < 2){
                                     placeSingleSquare(scanner, battlefield, preBuild, "Castle");
-                                } else if(towerNum<6) {
-                                    placeSingleSquare(scanner, battlefield, preBuild, "Tower");
-                                } else if(heroPlacementNum<2){
-                                    placeSingleSquare(scanner, battlefield, preBuild, "HeroSpawn");
-                                } else {
-                                    Render.displayWrongInputMessage();
+                                    break;
                                 }
-                                break;
                             }
                             case 5: {
-                                if(castleNum<2 && towerNum<6) {
+                                if(towerNum<6) {
                                     placeSingleSquare(scanner, battlefield, preBuild, "Tower");
-                                } else if (towerNum<6 && heroPlacementNum<2) {
-                                    placeSingleSquare(scanner, battlefield, preBuild, "HeroSpawn");
-                                } else {
-                                    Render.displayWrongInputMessage();
+                                    break;
                                 }
-                                break;
                             }
                             case 6: {
-                                if(castleNum < 2 && towerNum < 6 && heroPlacementNum < 2) {
+                                if(heroPlacementNum < 2) {
                                     placeSingleSquare(scanner, battlefield, preBuild, "HeroSpawn");
-                                } else {
-                                    Render.displayWrongInputMessage();
+                                    break;
                                 }
-                                break;
                             }
+                            default: Render.displayWrongInputMessage();
                         }
                     }
                     break;
@@ -317,5 +289,38 @@ public class MapCreator {
                 Render.displayWrongInputMessage();
             }
         }
+    }
+
+    public static void createPreBuild(Scanner scanner, User user) {
+        Render.displayMapNameRequest();
+        ArrayList<String> existingNames = MapPreBuilds.getPreBuildNames();
+        String input;
+        while(true) {
+            input = scanner.next();
+            if(Objects.equals(input, "skip")) {
+                return;
+            }
+            if(input.length()>3 && !existingNames.contains(input)){
+                break;
+            }
+            Render.displayWrongInputMessage();
+        }
+        PreBuild preBuild = new PreBuild(input, user);
+        castleNum = 0;
+        towerNum = 0;
+        heroPlacementNum = 0;
+        Battlefield battlefield = new Battlefield(20);
+        placeObj(scanner, preBuild, battlefield);
+    }
+
+    public static void changePreBuild(Scanner scanner, PreBuild preBuild) {
+        Battlefield battlefield = new Battlefield(20);
+        castleNum = 2;
+        towerNum = 6;
+        heroPlacementNum = 2;
+        battlefield.getSquare(preBuild.getLeftHeroPlacement()).setPeacefulOccupancy(new ChampLight(new Human()));
+        battlefield.getSquare(preBuild.getRightHeroPlacement()).setPeacefulOccupancy(new ChampLight(new Human()));
+        MapPreBuilds.useBattlePreBuild(battlefield, preBuild.getMapInfo());
+        placeObj(scanner, preBuild, battlefield);
     }
 }
