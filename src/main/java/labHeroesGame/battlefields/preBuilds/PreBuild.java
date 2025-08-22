@@ -2,6 +2,7 @@ package labHeroesGame.battlefields.preBuilds;
 
 import labHeroesGame.authorization.User;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,6 +18,9 @@ public class PreBuild implements Serializable {
     private ArrayList<String> rightTowers = new ArrayList<>();
     private User userCreator;
 
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     public PreBuild(String name){
         this.name = name;
     }
@@ -24,6 +28,10 @@ public class PreBuild implements Serializable {
     public PreBuild(String name, User user){
         this.name = name;
         userCreator = user;
+    }
+
+    public User getUserCreator() {
+        return userCreator;
     }
 
     public String getRightCastle() {

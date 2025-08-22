@@ -3,6 +3,7 @@ package labHeroesGame.heroes;
 import labHeroesGame.player.BasicPlayer;
 import labHeroesGame.units.BasicUnit;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -14,6 +15,9 @@ public abstract class BasicHero implements Serializable {
     private int price;
     private int speed;
     private ArrayList<BasicUnit> army = new ArrayList<BasicUnit>();
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     public int getSpeed() {
         return speed;

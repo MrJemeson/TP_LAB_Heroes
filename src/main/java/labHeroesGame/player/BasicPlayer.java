@@ -7,6 +7,7 @@ import labHeroesGame.buildings.Tower;
 import labHeroesGame.heroes.BasicHero;
 import labHeroesGame.units.BasicUnit;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -19,6 +20,9 @@ public abstract class BasicPlayer implements Serializable {
     private ArrayList<Tower> personalTowers = new ArrayList<>();
     private Castle castle;
     private ArrayList<BasicHero> killed = new ArrayList<>();
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     public Castle getCastle() {
         return castle;

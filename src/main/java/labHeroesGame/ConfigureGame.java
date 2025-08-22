@@ -5,6 +5,7 @@ import labHeroesGame.authorization.User;
 import labHeroesGame.battlefields.preBuilds.MapCreator;
 import labHeroesGame.battlefields.preBuilds.MapPreBuilds;
 import labHeroesGame.battlefields.preBuilds.PreBuild;
+import labHeroesGame.gameRecords.GameRecords;
 import labHeroesGame.gameSaving.GameLoader;
 import labHeroesGame.heroes.ChampLight;
 import labHeroesGame.heroes.UltimateHero;
@@ -58,13 +59,14 @@ public class ConfigureGame {
         return input.charAt(0) == 'y';
     }
 
-    public static PreBuild choosePreBuild(){
-        Render.displayPreBuildsToChoose();
+    public static PreBuild choosePreBuild(boolean isGame){
+        Render.displayPreBuildsToChoose(isGame);
         int intInput;
         String input;
+        int preBuildShift = ((isGame)?(0):(1));
         while(true){
             if(scanner.hasNextInt()){
-                intInput = scanner.nextInt();
+                intInput = scanner.nextInt() + preBuildShift;
                 if(intInput > 0 && intInput <= 1 + MapPreBuilds.getCustomPreBuilds().size()) {
                     if(intInput == 1) {
                         return MapPreBuilds.getMainMapPreBuild();
@@ -95,7 +97,7 @@ public class ConfigureGame {
         }
         new ChampLight(player2);
         Render.displayNewGameMessage(player1, player2);
-        PreBuild preBuild = choosePreBuild();
+        PreBuild preBuild = choosePreBuild(true);
         if (preBuild == null) {
             return;
         }
@@ -153,15 +155,27 @@ public class ConfigureGame {
                         break;
                     }
                     case 3: {
+                        if(!MapPreBuilds.getCustomPreBuilds().stream().filter(x -> x.getUserCreator() == curUser).toList().isEmpty()) {
+                            MapCreator.changePreBuild(scanner, choosePreBuild(false));
+                            break;
+                        }
+                    }
+                    case 4: {
                         if(GameLoader.hasAutoSave(curUser)) {
                             Game game = GameLoader.loadSave(curUser);
+                            assert game != null;
                             if(game.getLeftPlayer() instanceof Human) {
                                 game.getLeftPlayer().setScanner(scanner);
                             } else if(game.getRightPlayer() instanceof Human) {
                                 game.getRightPlayer().setScanner(scanner);
                             }
                             game.gameRound();
-
+                        }
+                    }
+                    case 5: {
+                        if(!GameRecords.getAllRecords().isEmpty()) {
+                            Render.displayRecords();
+                            continue;
                         }
                     }
                     default: Render.displayWrongInputMessage();
