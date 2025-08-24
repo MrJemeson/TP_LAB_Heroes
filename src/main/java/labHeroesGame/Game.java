@@ -190,33 +190,13 @@ public class Game  implements Serializable {
 
     public void addHero(BasicPlayer player, BasicHero hero) {
         if(player.equals(leftPlayer)) {
-            if(!map.getSquare("C17").isPeacefulOccupied()) {
-                map.getSquare("C17").setPeacefulOccupancy(hero);
-                allHeroes.add(hero);
-                heroPlacement.put(hero, "C17");
-            } else if(!map.getSquare("C18").isPeacefulOccupied()) {
-                map.getSquare("C18").setPeacefulOccupancy(hero);
-                allHeroes.add(hero);
-                heroPlacement.put(hero, "C18");
-            } else if(!map.getSquare("B17").isPeacefulOccupied()) {
-                map.getSquare("B17").setPeacefulOccupancy(hero);
-                allHeroes.add(hero);
-                heroPlacement.put(hero, "B17");
-            }
+            map.getSquare(currentPreBuild.getLeftHeroPlacement()).setPeacefulOccupancy(hero);
+            allHeroes.add(hero);
+            heroPlacement.put(hero, currentPreBuild.getLeftHeroPlacement());
         } else {
-            if(!map.getSquare("R2").isPeacefulOccupied()) {
-                map.getSquare("R2").setPeacefulOccupancy(hero);
-                allHeroes.add(hero);
-                heroPlacement.put(hero, "R2");
-            } else if(!map.getSquare("S2").isPeacefulOccupied()) {
-                map.getSquare("S2").setPeacefulOccupancy(hero);
-                allHeroes.add(hero);
-                heroPlacement.put(hero, "S2");
-            } else if(!map.getSquare("R1").isPeacefulOccupied()) {
-                map.getSquare("R1").setPeacefulOccupancy(hero);
-                allHeroes.add(hero);
-                heroPlacement.put(hero, "R1");
-            }
+            map.getSquare(currentPreBuild.getRightHeroPlacement()).setPeacefulOccupancy(hero);
+            allHeroes.add(hero);
+            heroPlacement.put(hero, currentPreBuild.getRightHeroPlacement());
         }
         fillGameInfo();
     }
@@ -245,6 +225,7 @@ public class Game  implements Serializable {
         target.getPeacefulOccupancy().getPlayerOwner().getKilled().add(target.getPeacefulOccupancy());
         target.getPeacefulOccupancy().getPlayerOwner().getHeroArmy().remove(target.getPeacefulOccupancy());
         allHeroes.remove(target.getPeacefulOccupancy());
+        heroPlacement.remove(target.getPeacefulOccupancy());
         target.getPeacefulOccupancy().refill();
         target.setPeacefulOccupancy(null);
     }

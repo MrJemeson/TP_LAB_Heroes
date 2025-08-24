@@ -256,7 +256,9 @@ public class Battlefield implements Serializable {
 
     public ArrayList<Square> findPathOrdinaryEXPERIMENTAL(Square start, Square end) {
         if (start == null || end == null) return null;
-
+        if (end.isObstacle()) {
+            return new ArrayList<Square>();
+        }
         Map<Square, Square> cameFrom = new HashMap<>();
         Map<Square, Float> costSoFar = new HashMap<>();
         PriorityQueue<PathNode> frontier = new PriorityQueue<>(Comparator.comparingDouble(n -> n.cost));
