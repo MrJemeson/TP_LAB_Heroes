@@ -7,20 +7,20 @@ import labHeroesGame.battlefields.squares.Square;
 import labHeroesGame.battles.Battle;
 import labHeroesGame.battles.CastleBattle;
 import labHeroesGame.battles.TowerBattle;
-import labHeroesGame.buildings.Castle;
-import labHeroesGame.buildings.Tower;
+import labHeroesGame.buildings.*;
 import labHeroesGame.gameRecords.GameRecord;
 import labHeroesGame.gameRecords.GameRecords;
 import labHeroesGame.gameSaving.GameSaver;
 import labHeroesGame.heroes.BasicHero;
+import labHeroesGame.heroes.NPC;
 import labHeroesGame.player.BasicPlayer;
+import labHeroesGame.player.Human;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.*;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 public class Game  implements Serializable {
     private final BasicPlayer leftPlayer;
@@ -31,13 +31,18 @@ public class Game  implements Serializable {
     private final HashMap<BasicHero, String> heroPlacement;
     private final HashMap<Tower, String> towerPlacement;
     private final PreBuild currentPreBuild;
+    private BasicHero currentHero;
     private final User currentUser;
     private int winCheck = 0;
     private String gameInfo;
     private int roundCount = 0;
+    private Hotel hotel;
+    private Barbershop barbershop;
+    private Cafe cafe;
+    private ArrayList<NPC> npcList = new ArrayList<>();
 
     @Serial
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
 
     public PreBuild getCurrentPreBuild() {
         return currentPreBuild;
@@ -64,6 +69,9 @@ public class Game  implements Serializable {
         for(Tower tower : allTowers) {
             gameInfo += "\n" + tower.getPlayerOwner().toString() + " " + tower + " : " + towerPlacement.get(tower);
         }
+        for(ThreadBuilding building: Arrays.asList(hotel, cafe, barbershop)) {
+            gameInfo += "\n" + building.getOccupancyInfo();
+        }
     }
 
     public Game(BasicPlayer player1, BasicPlayer player2, PreBuild preBuild, User user) {
@@ -71,6 +79,7 @@ public class Game  implements Serializable {
         rightPlayer = player2;
         currentPreBuild = preBuild;
         currentUser = user;
+        currentHero = null;
         map = new MainMap(preBuild);
         Castle castle1 = new Castle(player1);
         Castle castle2 = new Castle(player2);
@@ -100,6 +109,13 @@ public class Game  implements Serializable {
         refillPlayerBuildings(player2);
         for (BasicHero hero : allHeroes) {
             hero.refill();
+        }
+        hotel = new Hotel(this, preBuild.getHotelPlacement(), 120);
+        cafe = new Cafe(this, preBuild.getCafePlacement(), 60);
+        barbershop = new Barbershop(this, preBuild.getBarberPlacement(), 40);
+        for(int i = 0; i < 7; i++) {
+            NPC npc = new NPC(new Human());
+            npcList.add(npc);
         }
     }
 
@@ -147,22 +163,39 @@ public class Game  implements Serializable {
             Render.displayShop(leftPlayer);
             leftPlayer.buyHero(this);
             ArrayList<BasicHero> anotherAllHeroes =(ArrayList<BasicHero>) allHeroes.clone();
+            if (currentHero == null) {
+                for (NPC npc: npcList.stream().filter(x -> !x.isInBuilding()).collect(Collectors.toCollection(ArrayList::new))) {
+                    findActivity(npc);
+                }
+            }
             for (BasicHero hero : anotherAllHeroes) {
-                if (!allHeroes.contains(hero)) {
+                if (!allHeroes.contains(hero) || (currentHero != null && currentHero != hero)) {
                     continue;
                 }
                 Render.displayMap(map);
                 fillGameInfo();
                 Render.displayGameInfo(this);
+                if(hero.isInBuilding()) {
+                    if(!hero.getPlayerOwner().requestHeroWaiting(this, hero)) {
+                        continue;
+                    } else{
+                        Render.displayMap(map);
+                        fillGameInfo();
+                        Render.displayGameInfo(this);
+                    }
+                }
                 if (!hero.getPlayerOwner().equals(getLeftPlayer())) {
                     roundPhase = 2;
                     Render.displayShop(rightPlayer);
                     rightPlayer.buyHero(this);
                 }
+                currentHero = hero;
+                GameSaver.saveGame(this, currentUser);
                 switch (roundPhase) {
                     case 1 -> leftPlayer.requestMoveHero(this, hero);
                     case 2 -> rightPlayer.requestMoveHero(this, hero);
                 }
+                currentHero = null;
                 switch (winCheck) {
                     case 1 -> {
                         GameSaver.deleteAutoSave(currentUser);
@@ -219,6 +252,20 @@ public class Game  implements Serializable {
             killHero(start);
             tower.refill();
         }
+    }
+
+    public void findActivity(NPC hero) {
+        Random random = new Random();
+        ArrayList<ThreadBuilding> buildings = new ArrayList<>(Arrays.asList(hotel, cafe, barbershop));
+        buildings = buildings.stream().filter(x -> x.getServices().size() < x.getNumOfOccupants()).collect(Collectors.toCollection(ArrayList::new));
+        buildings.remove(hero.getPrevBuild());
+        if(buildings.isEmpty()) {
+            return;
+        }
+        int var = random.nextInt(buildings.size());
+        hero.setPrevBuild(buildings.get(var));
+        hero.setInBuilding(true);
+        buildings.get(var).startService(hero);
     }
 
     public void killHero(Square target) {
@@ -287,6 +334,27 @@ public class Game  implements Serializable {
                 }
             } else if (target.isBuilding() && target.getBuildingType().equals("Castle") && target.getCastleReference().getPlayerOwner().equals(hero.getPlayerOwner())) {
                 hero.refill();
+            } else if (target.isBuilding() && target.getBuildingType().equals("R.Hotel")) {
+                if(hero.getPlayerOwner().requestEnterThreadBuilding(this, hero, hotel)) {
+                    heroPlacement.remove(hero);
+                    hero.refill();
+                    start.setPeacefulOccupancy(null);
+                    hotel.startService(hero);
+                }
+            }  else if (target.isBuilding() && target.getBuildingType().equals("F.Cafe")) {
+                if(hero.getPlayerOwner().requestEnterThreadBuilding(this, hero, cafe)) {
+                    heroPlacement.remove(hero);
+                    hero.refill();
+                    start.setPeacefulOccupancy(null);
+                    cafe.startService(hero);
+                }
+            }  else if (target.isBuilding() && target.getBuildingType().equals("Barber")) {
+                if(hero.getPlayerOwner().requestEnterThreadBuilding(this, hero, barbershop)) {
+                    heroPlacement.remove(hero);
+                    hero.refill();
+                    start.setPeacefulOccupancy(null);
+                    barbershop.startService(hero);
+                }
             } else {
                 if(!preferredWay.isEmpty()) {
                     actualMovingHero(hero, preferredWay, start, preferredWay.size()-1);

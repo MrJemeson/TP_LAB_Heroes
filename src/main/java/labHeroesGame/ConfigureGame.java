@@ -166,7 +166,8 @@ public class ConfigureGame {
                             assert game != null;
                             if(game.getLeftPlayer() instanceof Human) {
                                 game.getLeftPlayer().setScanner(scanner);
-                            } else if(game.getRightPlayer() instanceof Human) {
+                            }
+                            if(game.getRightPlayer() instanceof Human) {
                                 game.getRightPlayer().setScanner(scanner);
                             }
                             game.gameRound();

@@ -5,6 +5,7 @@ import labHeroesGame.Render;
 import labHeroesGame.battlefields.squares.Square;
 import labHeroesGame.battles.Battle;
 import labHeroesGame.buildings.Castle;
+import labHeroesGame.buildings.ThreadBuilding;
 import labHeroesGame.buildings.Tower;
 import labHeroesGame.heroes.BasicHero;
 import labHeroesGame.units.BasicUnit;
@@ -231,6 +232,16 @@ public class Bot extends BasicPlayer {
                 }
             }
         }
+    }
+
+    @Override
+    public boolean requestEnterThreadBuilding(Game game, BasicHero hero, ThreadBuilding building) {
+        return building.getServices().size() < building.getNumOfOccupants();
+    }
+
+    @Override
+    public boolean requestHeroWaiting(Game game, BasicHero hero) {
+        return false;
     }
 }
 

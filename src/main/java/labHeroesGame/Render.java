@@ -211,13 +211,14 @@ public class Render {
         System.out.print("Название карты: ");
     }
 
-    public static int displayObjectsToPlace(int castleNum, int towerNum, int heroPlacementNum) {
+    public static int displayObjectsToPlace(int castleNum, int towerNum, int heroPlacementNum, int hotelNum) {
         System.out.println("Выберите объект для установки: ");
         int objInt = 0;
         System.out.println(++objInt + " = Road" + ", " + ++objInt + " = Obstacle" + ", " + ++objInt + " = Nothing"
                 +((castleNum<2)?(", " + ++objInt + " = Castle"):("")) +
                 ((towerNum<6)?(", " + ++objInt + " = Tower"):("")) +
                 ((heroPlacementNum<2)?(", " + ++objInt + " = Hero spawn"):("")) +
+                ((hotelNum<1)?(", " + ++objInt + " = Hotel"):("")) +
                 ((castleNum == 2 && towerNum == 6 && heroPlacementNum == 2)?(" (end = выйти из режима создания пребилда)"):("")));
         return objInt;
     }

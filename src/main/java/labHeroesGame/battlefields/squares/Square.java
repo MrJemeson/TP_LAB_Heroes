@@ -8,6 +8,9 @@ import labHeroesGame.units.BasicUnit;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 public class Square implements Serializable {
     private BasicUnit occupancy;
@@ -22,9 +25,10 @@ public class Square implements Serializable {
     private Square leftSquare;
     private Square rightSquare;
     private int gold = 0;
+    private static final ArrayList<String> allBuildings = new ArrayList<>(Arrays.asList("Tower", "Castle", "R.Hotel", "Barber", "F.Cafe"));
 
     @Serial
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
 
 
     public Square(boolean obstacle) {
@@ -158,8 +162,12 @@ public class Square implements Serializable {
         return peacefulOccupancy != null;
     }
 
+    public static ArrayList<String> getAllBuildings() {
+        return allBuildings;
+    }
+
     public void setSmthng(String type){
-        if(type.equals("Tower") || type.equals("Castle")) {
+        if(allBuildings.contains(type)) {
             setBuilding(type);
         } else if (type.equals("Road")) {
             setRoad();

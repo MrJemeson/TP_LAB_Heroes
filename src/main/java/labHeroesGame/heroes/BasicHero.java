@@ -1,5 +1,6 @@
 package labHeroesGame.heroes;
 
+import labHeroesGame.battlefields.squares.Square;
 import labHeroesGame.player.BasicPlayer;
 import labHeroesGame.units.BasicUnit;
 
@@ -15,9 +16,15 @@ public abstract class BasicHero implements Serializable {
     private int price;
     private int speed;
     private ArrayList<BasicUnit> army = new ArrayList<BasicUnit>();
+    private boolean inBuilding = false;
+    private final Square lock = new Square();
 
     @Serial
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
+
+    public Object getLock() {
+        return lock;
+    }
 
     public int getSpeed() {
         return speed;
@@ -82,6 +89,13 @@ public abstract class BasicHero implements Serializable {
         return -1;
     }
 
+    public boolean isInBuilding() {
+        return inBuilding;
+    }
+
+    public void setInBuilding(boolean inBuilding) {
+        this.inBuilding = inBuilding;
+    }
 
     public void setPlayerOwner(BasicPlayer playerOwner) {
         this.playerOwner = playerOwner;
