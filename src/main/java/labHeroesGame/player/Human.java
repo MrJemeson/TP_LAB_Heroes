@@ -5,6 +5,8 @@ import labHeroesGame.Render;
 import labHeroesGame.battlefields.squares.IdConverter;
 import labHeroesGame.battlefields.squares.Square;
 import labHeroesGame.battles.Battle;
+import labHeroesGame.buildings.ThreadBuilding;
+import labHeroesGame.buildings.ThreadBuildingService;
 import labHeroesGame.heroes.BasicHero;
 import labHeroesGame.units.BasicUnit;
 
@@ -125,5 +127,54 @@ public class Human extends BasicPlayer {
                 battle.simplifiedMovingUnit(hero, unit, preferredWay, preferredWay.getLast());
             }
         }
+    }
+
+    @Override
+    public boolean requestEnterThreadBuilding(Game game, BasicHero hero, ThreadBuilding building) {
+        String input;
+        while(!(building.getServices().size() < building.getNumOfOccupants())) {
+            System.out.println(building.getOccupancyInfo());
+            System.out.println("Все места в " + building.getName() + " заняты. skip = выход из здания");
+            input = getScanner().next();
+            if (input.equals("skip")) {
+                return false;
+            } else {
+                break;
+            }
+        }
+        System.out.println("Войти в " + building.getName() + "? y/n");
+        while (true) {
+            input = getScanner().next();
+            if (input.equals("y")) {
+                return true;
+            } else if (input.equals("n")) {
+                return false;
+            }
+        }
+    }
+
+    @Override
+    public boolean requestHeroWaiting(Game game, BasicHero hero) {
+        System.out.println("Герой занят услугой. Дождаться? y/n");
+        String input;
+        while (true) {
+            input = getScanner().next();
+            if(input.equals("y")) {
+                break;
+            } else if (input.equals("n")) {
+                return false;
+            }
+        }
+        System.out.println("Ожидание героя...");
+        synchronized (hero.getLock()) {
+            while (hero.isInBuilding()) {
+                try {
+                    hero.getLock().wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return true;
     }
 }

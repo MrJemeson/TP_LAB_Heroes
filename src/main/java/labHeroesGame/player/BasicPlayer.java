@@ -3,6 +3,7 @@ package labHeroesGame.player;
 import labHeroesGame.Game;
 import labHeroesGame.battles.Battle;
 import labHeroesGame.buildings.Castle;
+import labHeroesGame.buildings.ThreadBuilding;
 import labHeroesGame.buildings.Tower;
 import labHeroesGame.heroes.BasicHero;
 import labHeroesGame.units.BasicUnit;
@@ -22,7 +23,7 @@ public abstract class BasicPlayer implements Serializable {
     private ArrayList<BasicHero> killed = new ArrayList<>();
 
     @Serial
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
 
     public Castle getCastle() {
         return castle;
@@ -93,4 +94,8 @@ public abstract class BasicPlayer implements Serializable {
     public abstract boolean equals(Object obj);
 
     public abstract void requestMoveUnit(Battle battle, BasicHero hero, BasicUnit unit);
+
+    public abstract boolean requestEnterThreadBuilding(Game game, BasicHero hero, ThreadBuilding building);
+
+    public abstract boolean requestHeroWaiting(Game game, BasicHero hero);
 }

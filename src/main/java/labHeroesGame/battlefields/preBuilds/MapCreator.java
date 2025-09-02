@@ -15,6 +15,9 @@ public class MapCreator {
     private static int castleNum;
     private static int towerNum;
     private static int heroPlacementNum;
+    private static int hotelNum;
+    private static int barberNum;
+    private static int cafeNum;
 
     private static boolean objectSideRequest(Scanner scanner) {
         Render.displayObjectSideRequestMessage();
@@ -70,6 +73,15 @@ public class MapCreator {
                                         preBuild.setRightHeroPlacement(null);
                                         heroPlacementNum--;
                                     }
+                                } else if (preBuild.getMapInfo().get(IdConverter.convertToStringID(point1Int.get(0), i)).equals("R.Hotel")) {
+                                    preBuild.setHotelPlacement(null);
+                                    hotelNum--;
+                                } else if (preBuild.getMapInfo().get(IdConverter.convertToStringID(point1Int.get(0), i)).equals("Barber")) {
+                                    preBuild.setHotelPlacement(null);
+                                    barberNum--;
+                                } else if (preBuild.getMapInfo().get(IdConverter.convertToStringID(point1Int.get(0), i)).equals("F.Cafe")) {
+                                    preBuild.setHotelPlacement(null);
+                                    cafeNum--;
                                 }
                                 preBuild.getMapInfo().replace(IdConverter.convertToStringID(point1Int.get(0), i), type);
                             } else {
@@ -83,8 +95,15 @@ public class MapCreator {
                         for(int i = Integer.min(point1Int.get(0), point2Int.get(0)); i < Integer.max(point1Int.get(0), point2Int.get(0)+1); i++) {
                             if(preBuild.getMapInfo().containsKey(IdConverter.convertToStringID(i, point1Int.get(1)))) {
                                 if(preBuild.getMapInfo().get(IdConverter.convertToStringID(i, point1Int.get(1))).equals("Tower")) {
+                                    preBuild.getLeftTowers().remove(input);
+                                    preBuild.getRightTowers().remove(input);
                                     towerNum--;
                                 } else if (preBuild.getMapInfo().get(IdConverter.convertToStringID(i, point1Int.get(1))).equals("Castle")) {
+                                    if(preBuild.getLeftCastle().equals(input)) {
+                                        preBuild.setLeftCastle(null);
+                                    } else {
+                                        preBuild.setRightCastle(null);
+                                    }
                                     castleNum--;
                                 } else if (preBuild.getMapInfo().get(IdConverter.convertToStringID(i, point1Int.get(1))).equals("HeroSpawn")) {
                                     if (input.equals(preBuild.getLeftHeroPlacement())) {
@@ -96,6 +115,15 @@ public class MapCreator {
                                         preBuild.setRightHeroPlacement(null);
                                         heroPlacementNum--;
                                     }
+                                } else if (preBuild.getMapInfo().get(IdConverter.convertToStringID(i, point1Int.get(1))).equals("R.Hotel")) {
+                                    preBuild.setHotelPlacement(null);
+                                    hotelNum--;
+                                } else if (preBuild.getMapInfo().get(IdConverter.convertToStringID(i, point1Int.get(1))).equals("Barber")) {
+                                    preBuild.setHotelPlacement(null);
+                                    barberNum--;
+                                } else if (preBuild.getMapInfo().get(IdConverter.convertToStringID(i, point1Int.get(1))).equals("F.Cafe")) {
+                                    preBuild.setHotelPlacement(null);
+                                    cafeNum--;
                                 }
                                 preBuild.getMapInfo().replace(IdConverter.convertToStringID(i, point1Int.get(1)), type);
                             } else {
@@ -115,10 +143,17 @@ public class MapCreator {
             } else if (IdConverter.isStringID(battlefield, input)) {
                 if(preBuild.getMapInfo().containsKey(input)) {
                     if(preBuild.getMapInfo().get(input).equals("Tower")) {
+                        preBuild.getLeftTowers().remove(input);
+                        preBuild.getRightTowers().remove(input);
                         towerNum--;
                     } else if (preBuild.getMapInfo().get(input).equals("Castle")) {
+                        if(preBuild.getLeftCastle().equals(input)) {
+                            preBuild.setLeftCastle(null);
+                        } else {
+                            preBuild.setRightCastle(null);
+                        }
                         castleNum--;
-                    } else if(preBuild.getMapInfo().get(input).equals("HeroSpawn") && !type.equals("Road")) {
+                    } else if(preBuild.getMapInfo().get(input).equals("HeroSpawn")) {
                         if (input.equals(preBuild.getLeftHeroPlacement())) {
                             battlefield.getSquare(input).setPeacefulOccupancy(null);
                             preBuild.setLeftHeroPlacement(null);
@@ -128,6 +163,15 @@ public class MapCreator {
                             preBuild.setRightHeroPlacement(null);
                             heroPlacementNum--;
                         }
+                    } else if(preBuild.getMapInfo().get(input).equals("R.Hotel")) {
+                        preBuild.setHotelPlacement(null);
+                        hotelNum--;
+                    } else if(preBuild.getMapInfo().get(input).equals("Barbershop")) {
+                        preBuild.setBarberPlacement(null);
+                        barberNum--;
+                    } else if(preBuild.getMapInfo().get(input).equals("F.Cafe")) {
+                        preBuild.setCafePlacement(null);
+                        cafeNum--;
                     }
                     preBuild.getMapInfo().replace(input, type);
                 } else {
@@ -168,6 +212,15 @@ public class MapCreator {
                         battlefield.getSquare(input).setPeacefulOccupancy(null);
                         preBuild.setRightHeroPlacement(null);
                         heroPlacementNum--;
+                    } else if(preBuild.getMapInfo().get(input).equals("R.Hotel")) {
+                        preBuild.setHotelPlacement(null);
+                        hotelNum--;
+                    } else if(preBuild.getMapInfo().get(input).equals("Barbershop")) {
+                        preBuild.setBarberPlacement(null);
+                        barberNum--;
+                    } else if(preBuild.getMapInfo().get(input).equals("F.Cafe")) {
+                        preBuild.setCafePlacement(null);
+                        cafeNum--;
                     }
                     preBuild.getMapInfo().replace(input, type);
                 } else {
@@ -218,6 +271,15 @@ public class MapCreator {
                         }
                     }
                     heroPlacementNum++;
+                } else if (type.equals("R.Hotel")) {
+                    preBuild.setHotelPlacement(input);
+                    hotelNum++;
+                } else if (type.equals("Barber")) {
+                    preBuild.setHotelPlacement(input);
+                    barberNum++;
+                } else if (type.equals("F.Cafe")) {
+                    preBuild.setHotelPlacement(input);
+                    cafeNum++;
                 }
                 return;
             } else {
@@ -230,7 +292,7 @@ public class MapCreator {
         String input;
         while(true){
             Render.displayMap(battlefield);
-            int objInt = Render.displayObjectsToPlace(castleNum, towerNum, heroPlacementNum);
+            int objInt = Render.displayObjectsToPlace(castleNum, towerNum, heroPlacementNum, hotelNum);
             while(true) {
                 if(scanner.hasNextInt()){
                     int intInput = scanner.nextInt();
@@ -264,6 +326,21 @@ public class MapCreator {
                                 if(heroPlacementNum < 2) {
                                     placeSingleSquare(scanner, battlefield, preBuild, "HeroSpawn");
                                     break;
+                                }
+                            }
+                            case 7: {
+                                if(hotelNum<1) {
+                                    placeSingleSquare(scanner, battlefield, preBuild, "R.Hotel");
+                                }
+                            }
+                            case 8: {
+                                if(cafeNum<1) {
+                                    placeSingleSquare(scanner, battlefield, preBuild, "F.Cafe");
+                                }
+                            }
+                            case 9: {
+                                if(barberNum<1) {
+                                    placeSingleSquare(scanner, battlefield, preBuild, "Barber");
                                 }
                             }
                             default: Render.displayWrongInputMessage();

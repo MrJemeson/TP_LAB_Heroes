@@ -14,12 +14,15 @@ public class PreBuild implements Serializable {
     private String rightCastle;
     private String rightHeroPlacement;
     private String leftHeroPlacement;
+    private String hotelPlacement = null;
+    private String barberPlacement = null;
+    private String cafePlacement = null;
     private ArrayList<String> leftTowers = new ArrayList<>();
     private ArrayList<String> rightTowers = new ArrayList<>();
     private User userCreator;
 
     @Serial
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
 
     public PreBuild(String name){
         this.name = name;
@@ -92,6 +95,30 @@ public class PreBuild implements Serializable {
 
     public void setMapInfo(HashMap<String, String> mapInfo) {
         this.mapInfo = mapInfo;
+    }
+
+    public String getHotelPlacement() {
+        return hotelPlacement;
+    }
+
+    public void setHotelPlacement(String hotelPlacement) {
+        this.hotelPlacement = hotelPlacement;
+    }
+
+    public String getBarberPlacement() {
+        return barberPlacement;
+    }
+
+    public void setBarberPlacement(String barberPlacement) {
+        this.barberPlacement = barberPlacement;
+    }
+
+    public String getCafePlacement() {
+        return cafePlacement;
+    }
+
+    public void setCafePlacement(String cafePlacement) {
+        this.cafePlacement = cafePlacement;
     }
 
     @Override

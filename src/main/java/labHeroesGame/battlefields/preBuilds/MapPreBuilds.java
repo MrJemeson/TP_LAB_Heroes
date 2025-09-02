@@ -2,6 +2,7 @@ package labHeroesGame.battlefields.preBuilds;
 
 import labHeroesGame.battlefields.Battlefield;
 import labHeroesGame.battlefields.squares.IdConverter;
+import labHeroesGame.battlefields.squares.Square;
 
 import java.util.*;
 
@@ -53,6 +54,12 @@ public class MapPreBuilds {
         mainMapPreBuild.getMapInfo().put("R1","Road");
         mainMapPreBuild.setLeftHeroPlacement("C17");
         mainMapPreBuild.setRightHeroPlacement("R2");
+        mainMapPreBuild.setHotelPlacement("Q16");
+        mainMapPreBuild.getMapInfo().put("Q16", "R.Hotel");
+        mainMapPreBuild.setCafePlacement("D3");
+        mainMapPreBuild.getMapInfo().put("D3", "F.Cafe");
+        mainMapPreBuild.setBarberPlacement("S18");
+        mainMapPreBuild.getMapInfo().put("S18", "Barber");
         int x, y;
         ArrayList<List<Integer>> forest = new ArrayList<>(Arrays.asList(
                 List.of(6, 3), List.of(7, 3), List.of(8, 3), List.of(8, 4), List.of(9, 4),
@@ -146,7 +153,7 @@ public class MapPreBuilds {
 
     public static void useBattlePreBuild(Battlefield battlefield, Map<String, String> preBuild){
         for(String id : preBuild.keySet()) {
-            if(Objects.equals(preBuild.get(id), "Tower") || Objects.equals(preBuild.get(id), "Castle")){
+            if(Square.getAllBuildings().contains(preBuild.get(id))){
                 battlefield.setBuilding(id, preBuild.get(id));
             } else if (Objects.equals(preBuild.get(id), "Road")) {
                 battlefield.setRoad(id);
