@@ -7,6 +7,7 @@ import labHeroesGame.battlefields.preBuilds.PreBuild;
 import labHeroesGame.battlefields.squares.Square;
 import labHeroesGame.battles.Battle;
 import labHeroesGame.buildings.Castle;
+import labHeroesGame.buildings.ThreadBuilding;
 import labHeroesGame.buildings.Tower;
 import labHeroesGame.gameRecords.GameRecord;
 import labHeroesGame.gameRecords.GameRecords;
@@ -264,5 +265,22 @@ public class Render {
         for (GameRecord gameRecord: GameRecords.getAllRecords()) {
             System.out.println(i++ + ")" + gameRecord.getUserRecord() + ": " + gameRecord.getLeftPlayer() + " победил " + gameRecord.getRightPlayer() + " за " + gameRecord.getNumOfRounds() + " ходов.");
         }
+    }
+
+    public static void displayFullBuildingMessage(ThreadBuilding building) {
+        System.out.println(building.getOccupancyInfo());
+        System.out.println("Все места в " + building.getName() + " заняты. skip = выход из здания");
+    }
+
+    public static void displayEnterBuildingRequest(String name) {
+        System.out.println("Войти в " + name + "? y/n");
+    }
+
+    public static void displayHeroWaitingRequestMessage(){
+        System.out.println("Герой занят услугой. Дождаться? y/n");
+    }
+
+    public static void displayHeroWaitingMessage() {
+        System.out.println("Ожидание героя...");
     }
 }

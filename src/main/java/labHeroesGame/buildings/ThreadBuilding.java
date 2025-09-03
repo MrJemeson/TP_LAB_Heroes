@@ -102,4 +102,8 @@ public abstract class ThreadBuilding implements Serializable {
         }
         return new String(info);
     }
+
+    public void setOccupancyTime(int occupancyTime) {
+        this.occupancyTime = occupancyTime;
+    }
 }
