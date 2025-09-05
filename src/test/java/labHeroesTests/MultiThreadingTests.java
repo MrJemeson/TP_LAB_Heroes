@@ -10,19 +10,25 @@ import labHeroesGame.buildings.ThreadBuildingService;
 import labHeroesGame.heroes.AlmostGod;
 import labHeroesGame.heroes.BasicHero;
 import labHeroesGame.heroes.ChampLight;
+import labHeroesGame.heroes.NPC;
 import labHeroesGame.player.BasicPlayer;
 import labHeroesGame.player.Bot;
 import labHeroesGame.player.Human;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.Scanner;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class MultiThreadingTests {
     private static Game game;
@@ -63,6 +69,31 @@ public class MultiThreadingTests {
 
     @Test
     public void testWaitingFullBuilding() {
+        ByteArrayInputStream in = new ByteArrayInputStream(("skip\n").getBytes());
+        System.setIn(in);
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(output));
+        Scanner scanner = new Scanner(System.in);
+        for(int i = 0; i < 10; i++) {
+            NPC npc = new NPC(new Human());
+            game.getNpcList().add(npc);
+            game.findActivity(npc);
+        }
+        game.getLeftPlayer().setScanner(scanner);
+        BasicHero hero = game.getLeftPlayer().getHeroArmy().get(0);
+        game.getHeroPlacement().put(hero, "F2");
+        game.getMap().getSquare("F2").setPeacefulOccupancy(hero);
+        ArrayList<Square> fullWay = game.getMap().findPathOrdinaryEXPERIMENTAL("F2", "G1");
+        game.movingHero(hero, fullWay);
+        assertEquals(output.toString().substring(278, 326), "Все места в " + game.getHotel().getName() + " заняты. skip = выход из здания");
+    }
 
+    @AfterAll
+    public static void cleanUpPreBuilds(){
+        File file = new File("savedPreBuilds/Test.pb");
+        MapPreBuilds.getCustomPreBuilds().remove(MapPreBuilds.getCustomPreBuilds().stream().filter(x -> Objects.equals(x.getName(), "Test")).toList().get(0));
+        if (file.exists()) {
+            file.delete();
+        }
     }
 }

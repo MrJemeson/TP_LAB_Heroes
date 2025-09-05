@@ -61,7 +61,7 @@ public class PreBuildTests {
     @AfterEach
     public void cleanUpPreBuilds(){
         File file = new File("savedPreBuilds/Test.pb");
-        MapPreBuilds.getCustomPreBuilds().clear();
+        MapPreBuilds.getCustomPreBuilds().remove(MapPreBuilds.getCustomPreBuilds().stream().filter(x -> Objects.equals(x.getName(), "Test")).toList().get(0));
         if (file.exists()) {
             file.delete();
         }
