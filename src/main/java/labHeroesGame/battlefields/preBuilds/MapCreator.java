@@ -275,10 +275,10 @@ public class MapCreator {
                     preBuild.setHotelPlacement(input);
                     hotelNum++;
                 } else if (type.equals("Barber")) {
-                    preBuild.setHotelPlacement(input);
+                    preBuild.setBarberPlacement(input);
                     barberNum++;
                 } else if (type.equals("F.Cafe")) {
-                    preBuild.setHotelPlacement(input);
+                    preBuild.setCafePlacement(input);
                     cafeNum++;
                 }
                 return;
