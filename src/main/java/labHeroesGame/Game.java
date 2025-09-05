@@ -110,9 +110,17 @@ public class Game  implements Serializable {
         for (BasicHero hero : allHeroes) {
             hero.refill();
         }
-        hotel = new Hotel(this, preBuild.getHotelPlacement(), 120);
-        cafe = new Cafe(this, preBuild.getCafePlacement(), 60);
-        barbershop = new Barbershop(this, preBuild.getBarberPlacement(), 40);
+        if(preBuild.getHotelPlacement() != null) {
+            hotel = new Hotel(this, preBuild.getHotelPlacement(), 120);
+        }
+        if(preBuild.getBarberPlacement() != null) {
+            barbershop = new Barbershop(this, preBuild.getBarberPlacement(), 40);
+        }
+        if(preBuild.getCafePlacement() != null) {
+            cafe = new Cafe(this, preBuild.getCafePlacement(), 60);
+        }
+
+
         for(int i = 0; i < 7; i++) {
             NPC npc = new NPC(new Human());
             npcList.add(npc);
@@ -391,5 +399,21 @@ public class Game  implements Serializable {
 
     public HashMap<Tower, String> getTowerPlacement() {
         return towerPlacement;
+    }
+
+    public Hotel getHotel() {
+        return hotel;
+    }
+
+    public Barbershop getBarbershop() {
+        return barbershop;
+    }
+
+    public Cafe getCafe() {
+        return cafe;
+    }
+
+    public ArrayList<NPC> getNpcList() {
+        return npcList;
     }
 }

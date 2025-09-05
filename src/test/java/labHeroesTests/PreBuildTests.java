@@ -5,7 +5,6 @@ import labHeroesGame.battlefields.preBuilds.MapCreator;
 import labHeroesGame.battlefields.preBuilds.MapPreBuilds;
 import labHeroesGame.battlefields.preBuilds.PreBuild;
 import labHeroesGame.battlefields.preBuilds.PreBuildLoader;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 

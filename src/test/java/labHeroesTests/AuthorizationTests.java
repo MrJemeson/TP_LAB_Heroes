@@ -3,6 +3,7 @@ package labHeroesTests;
 import labHeroesGame.ConfigureGame;
 import labHeroesGame.authorization.AllUsers;
 import labHeroesGame.authorization.User;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -43,8 +44,22 @@ public class AuthorizationTests {
         assertTrue(output.toString().endsWith("Не подходящий ввод! Попробуйте снова: \nВведите имя пользователя: "));
     }
 
-    @AfterEach
-    public void clearUsers() {
+    @Test
+    public void testIncorrectPassword() {
+        ByteArrayInputStream in = new ByteArrayInputStream(("Tester\ntest\nTester\nWrongPassword\nskip\n").getBytes());
+        System.setIn(in);
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(output));
+        Scanner scanner = new Scanner(System.in);
+        ConfigureGame.setScanner(scanner);
+        ConfigureGame.authorizeUser();
+        AllUsers.loadAllUsers();
+        ConfigureGame.authorizeUser();
+        assertTrue(output.toString().endsWith("Не подходящий ввод! Попробуйте снова: \nВведите имя пользователя: "));
+    }
+
+    @AfterAll
+    public static void clearUsers() {
         AllUsers.getListOfUsers().remove(AllUsers.getUser("Tester"));
         AllUsers.saveAllUsers();
     }
