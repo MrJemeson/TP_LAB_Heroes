@@ -5,6 +5,7 @@ import labHeroesGame.battlefields.preBuilds.MapCreator;
 import labHeroesGame.battlefields.preBuilds.MapPreBuilds;
 import labHeroesGame.battlefields.preBuilds.PreBuild;
 import labHeroesGame.battlefields.preBuilds.PreBuildLoader;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +19,7 @@ public class PreBuildTests {
 
     @Test
     public void testPlacingObject(){
-        ByteArrayInputStream in = new ByteArrayInputStream(("Test\n5\nA19\n1\n5\nA17\n1\n5\nC19\n1\n5\nT0\n5\nT2\n5\nR0\n4\nA0\n1\n4\nT19\n4\nA10\n1\n4\nT10\nend\n").getBytes());
+        ByteArrayInputStream in = new ByteArrayInputStream(("Test1\n5\nA19\n1\n5\nA17\n1\n5\nC19\n1\n5\nT0\n5\nT2\n5\nR0\n4\nA0\n1\n4\nT19\n4\nA10\n1\n4\nT10\nend\n").getBytes());
         System.setIn(in);
         Scanner scanner = new Scanner(System.in);
         MapCreator.createPreBuild(scanner, new User("Tester", "test"));
@@ -58,12 +59,17 @@ public class PreBuildTests {
         assertEquals("Road", preBuild.getMapInfo().get("B4"));
     }
 
-    @AfterEach
-    public void cleanUpPreBuilds(){
+    @AfterAll
+    public static void cleanUpPreBuilds(){
         File file = new File("savedPreBuilds/Test.pb");
         MapPreBuilds.getCustomPreBuilds().remove(MapPreBuilds.getCustomPreBuilds().stream().filter(x -> Objects.equals(x.getName(), "Test")).toList().get(0));
         if (file.exists()) {
             file.delete();
+        }
+        File file1 = new File("savedPreBuilds/Test1.pb");
+        MapPreBuilds.getCustomPreBuilds().remove(MapPreBuilds.getCustomPreBuilds().stream().filter(x -> Objects.equals(x.getName(), "Test1")).toList().get(0));
+        if (file1.exists()) {
+            file1.delete();
         }
     }
 
