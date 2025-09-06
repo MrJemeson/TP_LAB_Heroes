@@ -212,7 +212,7 @@ public class Render {
         System.out.print("Название карты: ");
     }
 
-    public static int displayObjectsToPlace(int castleNum, int towerNum, int heroPlacementNum, int hotelNum) {
+    public static int displayObjectsToPlace(int castleNum, int towerNum, int heroPlacementNum, int hotelNum, int cafeNum, int barberNum) {
         System.out.println("Выберите объект для установки: ");
         int objInt = 0;
         System.out.println(++objInt + " = Road" + ", " + ++objInt + " = Obstacle" + ", " + ++objInt + " = Nothing"
@@ -220,6 +220,8 @@ public class Render {
                 ((towerNum<6)?(", " + ++objInt + " = Tower"):("")) +
                 ((heroPlacementNum<2)?(", " + ++objInt + " = Hero spawn"):("")) +
                 ((hotelNum<1)?(", " + ++objInt + " = Hotel"):("")) +
+                ((cafeNum<1)?(", " + ++objInt + " = Cafe"):("")) +
+                ((barberNum<1)?(", " + ++objInt + " = Barbershop"):("")) +
                 ((castleNum == 2 && towerNum == 6 && heroPlacementNum == 2)?(" (end = выйти из режима создания пребилда)"):("")));
         return objInt;
     }
