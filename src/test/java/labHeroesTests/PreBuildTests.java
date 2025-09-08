@@ -23,7 +23,7 @@ public class PreBuildTests {
         System.setIn(in);
         Scanner scanner = new Scanner(System.in);
         MapCreator.createPreBuild(scanner, new User("Tester", "test"));
-        PreBuild preBuild = MapPreBuilds.getCustomPreBuilds().stream().filter(x -> Objects.equals(x.getName(), "Test")).toList().get(0);
+        PreBuild preBuild = MapPreBuilds.getCustomPreBuilds().stream().filter(x -> Objects.equals(x.getName(), "Test1")).toList().get(0);
         assertEquals("Tower", preBuild.getMapInfo().get("A19"));
         assertEquals("Tower", preBuild.getMapInfo().get("A17"));
         assertEquals("Tower", preBuild.getMapInfo().get("C19"));
