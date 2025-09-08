@@ -45,9 +45,9 @@ public class Bot extends BasicPlayer {
     public void requestMoveHero(Game game, BasicHero hero) {
         Render.displayMovementBotMessage(this, hero, game.getHeroPlacement().get(hero));
         ArrayList<ObjectOfInterest> objectOfInterest = new ArrayList<>();
-        for(int i = 0; i < game.getAllHeroes().size(); i++){
-            Square place = game.getMap().getSquare(game.getHeroPlacement().get(game.getAllHeroes().get(i)));
-            objectOfInterest.add(new ObjectOfInterest(place, game.getAllHeroes().get(i)));
+        for(int i = 0; i < game.getAllHeroes().stream().filter(x -> !x.isInBuilding()).toList().size(); i++){
+            Square place = game.getMap().getSquare(game.getHeroPlacement().get(game.getAllHeroes().stream().filter(x -> !x.isInBuilding()).toList().get(i)));
+            objectOfInterest.add(new ObjectOfInterest(place, game.getAllHeroes().stream().filter(x -> !x.isInBuilding()).toList().get(i)));
         }
         for (int i = 0; i < game.getAllTowers().size(); i++) {
             Square place = game.getMap().getSquare(game.getTowerPlacement().get(game.getAllTowers().get(i)));
@@ -236,7 +236,7 @@ public class Bot extends BasicPlayer {
 
     @Override
     public boolean requestEnterThreadBuilding(Game game, BasicHero hero, ThreadBuilding building) {
-        return building.getServices().size() < building.getNumOfOccupants();
+        return building.getServices().size() < building.getNumOfOccupants() && building.isWorking();
     }
 
     @Override

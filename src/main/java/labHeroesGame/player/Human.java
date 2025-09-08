@@ -131,6 +131,13 @@ public class Human extends BasicPlayer {
     @Override
     public boolean requestEnterThreadBuilding(Game game, BasicHero hero, ThreadBuilding building) {
         String input;
+        while(!(building.isWorking())) {
+            Render.displayClosedBuildingMessage(building);
+            input = getScanner().next();
+            if (input.equals("skip")) {
+                return false;
+            }
+        }
         while(!(building.getServices().size() < building.getNumOfOccupants())) {
             Render.displayFullBuildingMessage(building);
             input = getScanner().next();
