@@ -85,7 +85,7 @@ public class MultiThreadingTests {
         game.getMap().getSquare("F2").setPeacefulOccupancy(hero);
         ArrayList<Square> fullWay = game.getMap().findPathOrdinaryEXPERIMENTAL("F2", "G1");
         game.movingHero(hero, fullWay);
-        assertEquals(output.toString().substring(278, 326), "Все места в " + game.getHotel().getName() + " заняты. skip = выход из здания");
+        assertEquals(output.toString().substring(280, 328), "Все места в " + game.getHotel().getName() + " заняты. skip = выход из здания");
     }
 
     @AfterAll

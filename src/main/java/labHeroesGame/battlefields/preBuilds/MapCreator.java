@@ -292,7 +292,7 @@ public class MapCreator {
         String input;
         while(true){
             Render.displayMap(battlefield);
-            int objInt = Render.displayObjectsToPlace(castleNum, towerNum, heroPlacementNum, hotelNum);
+            int objInt = Render.displayObjectsToPlace(castleNum, towerNum, heroPlacementNum, hotelNum, cafeNum, barberNum);
             while(true) {
                 if(scanner.hasNextInt()){
                     int intInput = scanner.nextInt();
@@ -331,16 +331,19 @@ public class MapCreator {
                             case 7: {
                                 if(hotelNum<1) {
                                     placeSingleSquare(scanner, battlefield, preBuild, "R.Hotel");
+                                    break;
                                 }
                             }
                             case 8: {
                                 if(cafeNum<1) {
                                     placeSingleSquare(scanner, battlefield, preBuild, "F.Cafe");
+                                    break;
                                 }
                             }
                             case 9: {
                                 if(barberNum<1) {
                                     placeSingleSquare(scanner, battlefield, preBuild, "Barber");
+                                    break;
                                 }
                             }
                             default: Render.displayWrongInputMessage();
