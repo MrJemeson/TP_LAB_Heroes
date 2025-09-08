@@ -29,6 +29,7 @@ public class ThreadBuildingService extends Thread implements Serializable {
                     timeLeft--;
                 }
             }
+            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + heroOccupancy.toString());
             building.endService(this);
         } catch (InterruptedException e) {}
     }

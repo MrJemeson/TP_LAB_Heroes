@@ -1,6 +1,7 @@
 package labHeroesGame.buildings;
 
 import labHeroesGame.Game;
+import labHeroesGame.GlobalTime;
 import labHeroesGame.battlefields.squares.IdConverter;
 import labHeroesGame.heroes.BasicHero;
 import labHeroesGame.heroes.NPC;
@@ -19,11 +20,29 @@ public abstract class ThreadBuilding implements Serializable {
     private int numOfOccupants;
     private String placement;
     private String name;
+    private ArrayList<Integer> workTime = new ArrayList<>();
 
-    public ThreadBuilding(Game game ,String placement, int occupancyTime) {
+    public ThreadBuilding(Game game, String placement, int occupancyTime) {
         this.game = game;
         this.occupancyTime = occupancyTime;
         this.placement = placement;
+    }
+
+    public boolean isWorking(){
+        if(workTime.isEmpty()){
+            return true;
+        }
+        return workTime.get(0) < GlobalTime.getHours() && GlobalTime.getHours() < workTime.get(1);
+    }
+
+    public void setWorkTime(int openingHour, int closingHour) {
+        workTime.clear();
+        workTime.add(openingHour);
+        workTime.add(closingHour);
+    }
+
+    public ArrayList<Integer> getWorkTime() {
+        return workTime;
     }
 
     public String getName() {

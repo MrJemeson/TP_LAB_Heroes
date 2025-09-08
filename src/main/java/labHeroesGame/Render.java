@@ -59,7 +59,7 @@ public class Render {
     }
 
     public static void displayGameInfo(Game game){
-        System.out.println(game.getGameInfo() + "\n\n");
+        System.out.println(GlobalTime.getTime() + "\n" + game.getGameInfo() + "\n\n");
     }
 
     public static void displayShop(BasicPlayer player) {
@@ -104,7 +104,7 @@ public class Render {
         if(!MapPreBuilds.getCustomPreBuilds().isEmpty()) {
             int i = 2 - ((isGame)?(0):(1));
             for(PreBuild preBuild: MapPreBuilds.getCustomPreBuilds()) {
-                System.out.println(" " + i++ + ") CUSTOM: " + preBuild + "\n");
+                System.out.println(" " + i++ + ") CUSTOM: " + preBuild);
             }
         }
     }
@@ -272,6 +272,12 @@ public class Render {
     public static void displayFullBuildingMessage(ThreadBuilding building) {
         System.out.println(building.getOccupancyInfo());
         System.out.println("Все места в " + building.getName() + " заняты. skip = выход из здания");
+    }
+
+    public static void displayClosedBuildingMessage(ThreadBuilding building) {
+        System.out.println("Здание " + building.getName() + " на данным момент закрыто. Оно будет открыто в " + building.getWorkTime().get(0) + " часов" +
+                "\nТекущее время: " + GlobalTime.getTime() +
+                "\nskip = выход из здания");
     }
 
     public static void displayEnterBuildingRequest(String name) {

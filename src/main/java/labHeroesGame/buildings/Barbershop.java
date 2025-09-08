@@ -11,6 +11,7 @@ public class Barbershop extends ThreadBuilding {
         super(game, placement, occupancyTime);
         setName("Парикмахерская");
         setNumOfOccupants(2);
+        setWorkTime(9, 18);
     }
 
     @Override

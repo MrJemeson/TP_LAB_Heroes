@@ -40,6 +40,7 @@ public class Game  implements Serializable {
     private Barbershop barbershop;
     private Cafe cafe;
     private ArrayList<NPC> npcList = new ArrayList<>();
+    private GlobalTime globalTime;
 
     @Serial
     private static final long serialVersionUID = 2L;
@@ -119,8 +120,6 @@ public class Game  implements Serializable {
         if(preBuild.getCafePlacement() != null) {
             cafe = new Cafe(this, preBuild.getCafePlacement(), 60);
         }
-
-
         for(int i = 0; i < 7; i++) {
             NPC npc = new NPC(new Human());
             npcList.add(npc);
@@ -130,6 +129,8 @@ public class Game  implements Serializable {
     public boolean startGame(){
         placeHeroes();
         GameSaver.saveGame(this, currentUser);
+        globalTime = new GlobalTime();
+        globalTime.start();
         if(gameRound()) {
             Render.displayWinningMessage(leftPlayer, roundCount);
             GameRecords.addRecord(new GameRecord(currentUser, roundCount, leftPlayer, rightPlayer));
@@ -265,7 +266,7 @@ public class Game  implements Serializable {
     public void findActivity(NPC hero) {
         Random random = new Random();
         ArrayList<ThreadBuilding> buildings = new ArrayList<>(Arrays.asList(hotel, cafe, barbershop));
-        buildings = buildings.stream().filter(x -> x.getServices().size() < x.getNumOfOccupants()).collect(Collectors.toCollection(ArrayList::new));
+        buildings = buildings.stream().filter(x -> (x.getServices().size() < x.getNumOfOccupants())&&(x.isWorking())).collect(Collectors.toCollection(ArrayList::new));
         buildings.remove(hero.getPrevBuild());
         if(buildings.isEmpty()) {
             return;
