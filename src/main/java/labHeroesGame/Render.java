@@ -86,7 +86,7 @@ public class Render {
         System.out.println("Меню.\n" +
                 "1) Начать игру\n" +
                 "2) Создать пребилд\n" +
-                ((!MapPreBuilds.getCustomPreBuilds().stream().filter(x -> x.getUserCreator() == curUser).toList().isEmpty())?(i++ + ") Изменить пребилд\n"):("")) +
+                ((!MapPreBuilds.getCustomPreBuilds().stream().filter(x -> x.getUserCreator().equals(curUser)).toList().isEmpty())?(i++ + ") Изменить пребилд\n"):("")) +
                 ((GameLoader.hasAutoSave(curUser))?(i++ + ") Загрузить игру\n"):("")) +
                 ((GameRecords.getAllRecords().isEmpty())?(""):(i + ") Показать таблицу лидеров\n")));
     }
