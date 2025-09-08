@@ -155,7 +155,7 @@ public class ConfigureGame {
                         break;
                     }
                     case 3: {
-                        if(!MapPreBuilds.getCustomPreBuilds().stream().filter(x -> x.getUserCreator() == curUser).toList().isEmpty()) {
+                        if(!MapPreBuilds.getCustomPreBuilds().stream().filter(x -> x.getUserCreator().equals(curUser)).toList().isEmpty()) {
                             MapCreator.changePreBuild(scanner, choosePreBuild(false));
                             break;
                         }

@@ -1,11 +1,9 @@
 package labHeroesGame.battlefields.preBuilds;
 
+import com.google.gson.Gson;
 import labHeroesGame.Render;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
+import java.io.*;
 
 public class PreBuildLoader {
     public static void loadPreBuilds() {
@@ -17,15 +15,15 @@ public class PreBuildLoader {
             return;
         }
 
-        File[] files = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".pb"));
+        File[] files = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".json"));
         if (files == null) return;
-
+        Gson gson = new Gson();
         for (File file : files) {
-            try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(file))) {
-                PreBuild preBuild = (PreBuild) inputStream.readObject();
+            try (FileReader fileReader = new FileReader(file)) {
+                PreBuild preBuild = gson.fromJson(fileReader, PreBuild.class);
                 MapPreBuilds.getCustomPreBuilds().add(preBuild);
                 Render.displayPreBuildLoaded(file.getName());
-            } catch (IOException | ClassNotFoundException e) {
+            } catch (IOException e) {
                 Render.displayPreBuildLoadError(file.getName());
                 e.printStackTrace();
             }
