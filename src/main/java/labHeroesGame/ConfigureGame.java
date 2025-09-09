@@ -5,6 +5,7 @@ import labHeroesGame.authorization.User;
 import labHeroesGame.battlefields.preBuilds.MapCreator;
 import labHeroesGame.battlefields.preBuilds.MapPreBuilds;
 import labHeroesGame.battlefields.preBuilds.PreBuild;
+import labHeroesGame.buildings.ThreadBuildingService;
 import labHeroesGame.gameRecords.GameRecords;
 import labHeroesGame.gameSaving.GameLoader;
 import labHeroesGame.heroes.ChampLight;
@@ -142,10 +143,15 @@ public class ConfigureGame {
         int intInput;
         String input;
         while (true) {
+            boolean canChangePrebuild = !MapPreBuilds.getCustomPreBuilds()
+                    .stream().filter(x -> x.getUserCreator().equals(curUser))
+                    .toList().isEmpty();
             Render.displayMenu(curUser);
             if(scanner.hasNextInt()) {
                 intInput = scanner.nextInt();
-                switch (intInput){
+                int adjusted = intInput;
+                if (intInput >= 3 && !canChangePrebuild) adjusted++;
+                switch (adjusted){
                     case 1: {
                         setUpGame(curUser);
                         return;
@@ -169,6 +175,15 @@ public class ConfigureGame {
                             }
                             if(game.getRightPlayer() instanceof Human) {
                                 game.getRightPlayer().setScanner(scanner);
+                            }
+                            if(game.getCurrentPreBuild().getHotelPlacement() != null) {
+                                game.getHotel().getServices().forEach(ThreadBuildingService::start);
+                            }
+                            if(game.getCurrentPreBuild().getBarberPlacement() != null) {
+                                game.getBarbershop().getServices().forEach(ThreadBuildingService::start);
+                            }
+                            if(game.getCurrentPreBuild().getCafePlacement() != null) {
+                                game.getCafe().getServices().forEach(ThreadBuildingService::start);
                             }
                             game.gameRound();
                         }

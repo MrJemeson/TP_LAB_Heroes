@@ -61,8 +61,20 @@ public abstract class ThreadBuilding implements Serializable {
         return placement;
     }
 
-    public ArrayList<ThreadBuildingService> getServices() {
+    public synchronized ArrayList<ThreadBuildingService> getServices() {
         return services;
+    }
+
+    private synchronized void removeService(ThreadBuildingService service) {
+        services.remove(service);
+    }
+
+    private synchronized void addService(ThreadBuildingService service) {
+        services.add(service);
+    }
+
+    private synchronized void clearEmptyServices(){
+        services = services.stream().filter(Objects::nonNull).collect(Collectors.toCollection(ArrayList::new));
     }
 
     public int getNumOfOccupants() {
@@ -72,7 +84,7 @@ public abstract class ThreadBuilding implements Serializable {
     public void startService(BasicHero hero) {
         ThreadBuildingService newService = new ThreadBuildingService(this, hero);
         newService.getHeroOccupancy().setInBuilding(true);
-        services.add(newService);
+        addService(newService);
         newService.start();
     }
 
@@ -94,12 +106,12 @@ public abstract class ThreadBuilding implements Serializable {
         if(!(service.getHeroOccupancy() instanceof NPC)) {
             placeHero(service.getHeroOccupancy());
         }
-        services.remove(service);
+        removeService(service);
         synchronized (service.getHeroOccupancy().getLock()) {
             service.getHeroOccupancy().setInBuilding(false);
             service.getHeroOccupancy().getLock().notify();
         }
-        services = services.stream().filter(Objects::nonNull).collect(Collectors.toCollection(ArrayList::new));
+        clearEmptyServices();
     }
 
     public abstract void serviceAction(BasicHero hero);

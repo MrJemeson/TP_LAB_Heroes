@@ -166,11 +166,12 @@ public class Game  implements Serializable {
         fillGameInfo();
         while (true) {
             roundCount++;
-            int roundPhase = 1;
             leftPlayer.addPersonalGold(200);
             rightPlayer.addPersonalGold(200);
             Render.displayShop(leftPlayer);
             leftPlayer.buyHero(this);
+            Render.displayShop(rightPlayer);
+            rightPlayer.buyHero(this);
             ArrayList<BasicHero> anotherAllHeroes =(ArrayList<BasicHero>) allHeroes.clone();
             if (currentHero == null) {
                 for (NPC npc: npcList.stream().filter(x -> !x.isInBuilding()).collect(Collectors.toCollection(ArrayList::new))) {
@@ -193,17 +194,9 @@ public class Game  implements Serializable {
                         Render.displayGameInfo(this);
                     }
                 }
-                if (!hero.getPlayerOwner().equals(getLeftPlayer())) {
-                    roundPhase = 2;
-                    Render.displayShop(rightPlayer);
-                    rightPlayer.buyHero(this);
-                }
                 currentHero = hero;
                 GameSaver.saveGame(this, currentUser);
-                switch (roundPhase) {
-                    case 1 -> leftPlayer.requestMoveHero(this, hero);
-                    case 2 -> rightPlayer.requestMoveHero(this, hero);
-                }
+                hero.getPlayerOwner().requestMoveHero(this, hero);
                 currentHero = null;
                 switch (winCheck) {
                     case 1 -> {
