@@ -83,7 +83,7 @@ public class Render {
 
     public static void displayMenu(User curUser){
         int i = 3;
-        System.out.println("Меню.\n" +
+        System.out.println("\nМеню.\n" +
                 "1) Начать игру\n" +
                 "2) Создать пребилд\n" +
                 ((!MapPreBuilds.getCustomPreBuilds().stream().filter(x -> x.getUserCreator().equals(curUser)).toList().isEmpty())?(i++ + ") Изменить пребилд\n"):("")) +
@@ -264,9 +264,11 @@ public class Render {
 
     public static void displayRecords() {
         int i = 1;
+        System.out.println("\n");
         for (GameRecord gameRecord: GameRecords.getAllRecords()) {
             System.out.println(i++ + ")" + gameRecord.getUserRecord() + ": " + gameRecord.getLeftPlayer() + " победил " + gameRecord.getRightPlayer() + " за " + gameRecord.getNumOfRounds() + " ходов.");
         }
+        System.out.println("\n");
     }
 
     public static void displayFullBuildingMessage(ThreadBuilding building) {
