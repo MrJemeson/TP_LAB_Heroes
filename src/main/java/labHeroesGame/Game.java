@@ -410,4 +410,8 @@ public class Game  implements Serializable {
     public ArrayList<NPC> getNpcList() {
         return npcList;
     }
+
+    public GlobalTime getGlobalTime() {
+        return globalTime;
+    }
 }
