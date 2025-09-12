@@ -70,7 +70,7 @@ public class Game  implements Serializable {
         for(Tower tower : allTowers) {
             gameInfo += "\n" + tower.getPlayerOwner().toString() + " " + tower + " : " + towerPlacement.get(tower);
         }
-        for(ThreadBuilding building: Arrays.asList(hotel, cafe, barbershop)) {
+        for(ThreadBuilding building: Arrays.asList(hotel, cafe, barbershop).stream().filter(x -> !(x == null)).toList()) {
             gameInfo += "\n" + building.getOccupancyInfo();
         }
     }
@@ -185,13 +185,15 @@ public class Game  implements Serializable {
                 Render.displayMap(map);
                 fillGameInfo();
                 Render.displayGameInfo(this);
-                if(hero.isInBuilding()) {
-                    if(!hero.getPlayerOwner().requestHeroWaiting(this, hero)) {
-                        continue;
-                    } else{
-                        Render.displayMap(map);
-                        fillGameInfo();
-                        Render.displayGameInfo(this);
+                synchronized (hero.getLock()) {
+                    if(hero.isInBuilding()) {
+                        if(!hero.getPlayerOwner().requestHeroWaiting(this, hero)) {
+                            continue;
+                        } else{
+                            Render.displayMap(map);
+                            fillGameInfo();
+                            Render.displayGameInfo(this);
+                        }
                     }
                 }
                 currentHero = hero;
@@ -259,7 +261,7 @@ public class Game  implements Serializable {
     public void findActivity(NPC hero) {
         Random random = new Random();
         ArrayList<ThreadBuilding> buildings = new ArrayList<>(Arrays.asList(hotel, cafe, barbershop));
-        buildings = buildings.stream().filter(x -> (x.getServices().size() < x.getNumOfOccupants())&&(x.isWorking())).collect(Collectors.toCollection(ArrayList::new));
+        buildings = buildings.stream().filter(x -> !(x == null)).filter(x -> (x.getServices().size() < x.getNumOfOccupants())&&(x.isWorking())).collect(Collectors.toCollection(ArrayList::new));
         buildings.remove(hero.getPrevBuild());
         if(buildings.isEmpty()) {
             return;
