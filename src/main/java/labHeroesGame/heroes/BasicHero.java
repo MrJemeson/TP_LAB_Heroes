@@ -5,11 +5,11 @@ import labHeroesGame.player.BasicPlayer;
 import labHeroesGame.units.BasicUnit;
 
 import java.io.Serial;
-import java.io.Serializable;
+import org.springframework.Sterializable;
 import java.util.ArrayList;
 
-public abstract class BasicHero implements Serializable {
-    static int heroIdentifiers = 0;
+public abstract class BasicHero implements Sterializable {
+    private static int heroIdentifiers = 0;
     private final int identifier;
     private String name;
     private BasicPlayer playerOwner;

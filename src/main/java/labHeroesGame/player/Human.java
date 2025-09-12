@@ -170,12 +170,10 @@ public class Human extends BasicPlayer {
         }
         Render.displayHeroWaitingMessage();
         synchronized (hero.getLock()) {
-            while (hero.isInBuilding()) {
-                try {
-                    hero.getLock().wait();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+            try {
+                hero.getLock().wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
         return true;

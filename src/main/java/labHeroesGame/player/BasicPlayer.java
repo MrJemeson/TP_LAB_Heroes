@@ -8,8 +8,8 @@ import labHeroesGame.buildings.Tower;
 import labHeroesGame.heroes.BasicHero;
 import labHeroesGame.units.BasicUnit;
 
-import java.io.Serial;
 import java.io.Serializable;
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Scanner;
 

@@ -293,4 +293,8 @@ public class Render {
     public static void displayHeroWaitingMessage() {
         System.out.println("Ожидание героя...");
     }
+
+    public static void displayChooseSaveMethodMessage(){
+        System.out.print("Выберите способ сохранения (json или xml): ");
+    }
 }

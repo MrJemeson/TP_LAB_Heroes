@@ -1,5 +1,6 @@
 package labHeroesGame.battlefields.preBuilds;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 import labHeroesGame.authorization.User;
 
 import java.io.Serial;
@@ -20,9 +21,14 @@ public class PreBuild implements Serializable {
     private ArrayList<String> leftTowers = new ArrayList<>();
     private ArrayList<String> rightTowers = new ArrayList<>();
     private User userCreator;
+    private String saveMethod;
 
     @Serial
     private static final long serialVersionUID = 2L;
+
+    public PreBuild() {
+        this.name = null;
+    }
 
     public PreBuild(String name){
         this.name = name;
@@ -124,5 +130,13 @@ public class PreBuild implements Serializable {
     @Override
     public String toString() {
         return name + ". Creator: " + userCreator.getName();
+    }
+
+    public String getSaveMethod() {
+        return saveMethod;
+    }
+
+    public void setSaveMethod(String saveMethod) {
+        this.saveMethod = saveMethod;
     }
 }

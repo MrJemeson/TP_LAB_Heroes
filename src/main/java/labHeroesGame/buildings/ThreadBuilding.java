@@ -32,13 +32,27 @@ public abstract class ThreadBuilding implements Serializable {
         if(workTime.isEmpty()){
             return true;
         }
-        return workTime.get(0) < GlobalTime.getHours() && GlobalTime.getHours() < workTime.get(1);
+        if(!(workTime.get(0) < GlobalTime.getHours() && GlobalTime.getHours() < workTime.get(1))) {
+            return false;
+        }
+        if(workTime.size() == 4) {
+            return !(workTime.get(2) < GlobalTime.getHours() && GlobalTime.getHours() < workTime.get(3));
+        }
+        return true;
     }
 
     public void setWorkTime(int openingHour, int closingHour) {
         workTime.clear();
         workTime.add(openingHour);
         workTime.add(closingHour);
+    }
+
+    public void setWorkTime(int openingHour, int closingHour, int lunchStart, int lunchEnd) {
+        workTime.clear();
+        workTime.add(openingHour);
+        workTime.add(closingHour);
+        workTime.add(lunchStart);
+        workTime.add(lunchEnd);
     }
 
     public ArrayList<Integer> getWorkTime() {
