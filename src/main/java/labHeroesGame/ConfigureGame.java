@@ -185,6 +185,8 @@ public class ConfigureGame {
                             if(game.getCurrentPreBuild().getCafePlacement() != null) {
                                 game.getCafe().getServices().forEach(ThreadBuildingService::start);
                             }
+                            game.getGlobalTime().setHours(game.getCurTime().get(0));
+                            game.getGlobalTime().setMinutes(game.getCurTime().get(1));
                             game.getGlobalTime().start();
                             game.gameRound();
                         }
