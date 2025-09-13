@@ -47,22 +47,5 @@ public class PreBuildLoader {
                 e.printStackTrace();
             }
         }
-//        XStream xStream = new XStream();
-//        xStream.addPermission(AnyTypePermission.ANY);
-//        xStream.allowTypes(new Class[]{PreBuild.class});
-//        xStream.allowTypesByWildcard(new String[] {
-//                "labHeroesGame.**"
-//        });
-//        xStream.processAnnotations(PreBuild.class);
-//        for (File file : files) {
-//            try (FileReader fileReader = new FileReader(file)) {
-//                PreBuild preBuild = (PreBuild) xStream.fromXML(fileReader, PreBuild.class);
-//                MapPreBuilds.getCustomPreBuilds().add(preBuild);
-//                Render.displayPreBuildLoaded(file.getName());
-//            } catch (IOException e) {
-//                Render.displayPreBuildLoadError(file.getName());
-//                e.printStackTrace();
-//            }
-//        }
     }
 }
