@@ -41,6 +41,8 @@ public class Game  implements Serializable {
     private Cafe cafe;
     private ArrayList<NPC> npcList = new ArrayList<>();
     private GlobalTime globalTime;
+    private ArrayList<Integer> curTime = new ArrayList<>();
+    private Object testObject;
 
     @Serial
     private static final long serialVersionUID = 2L;
@@ -59,6 +61,17 @@ public class Game  implements Serializable {
 
     public void setGameInfo(String gameInfo) {
         this.gameInfo = gameInfo;
+    }
+
+    public ArrayList<Integer> getCurTime() {
+        return curTime;
+    }
+
+    public void setTime(int hours, int minutes) {
+        ArrayList<Integer> newCurTime = new ArrayList<>();
+        newCurTime.add(hours);
+        newCurTime.add(minutes);
+        curTime = newCurTime;
     }
 
     protected void fillGameInfo() {
@@ -130,6 +143,8 @@ public class Game  implements Serializable {
         placeHeroes();
         GameSaver.saveGame(this, currentUser);
         globalTime = new GlobalTime();
+        curTime.add(GlobalTime.getHours());
+        curTime.add(GlobalTime.getMinutes());
         globalTime.start();
         if(gameRound()) {
             Render.displayWinningMessage(leftPlayer, roundCount);
