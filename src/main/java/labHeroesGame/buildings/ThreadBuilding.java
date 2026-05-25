@@ -20,7 +20,7 @@ public abstract class ThreadBuilding implements Serializable {
     private int numOfOccupants;
     private String placement;
     private String name;
-    private ArrayList<Integer> workTime = new ArrayList<>();
+//    private ArrayList<Integer> workTime = new ArrayList<>();
 
     public ThreadBuilding(Game game, String placement, int occupancyTime) {
         this.game = game;
@@ -28,36 +28,36 @@ public abstract class ThreadBuilding implements Serializable {
         this.placement = placement;
     }
 
-    public boolean isWorking(){
-        if(workTime.isEmpty()){
-            return true;
-        }
-        if(!(workTime.get(0) < GlobalTime.getHours() && GlobalTime.getHours() < workTime.get(1))) {
-            return false;
-        }
-        if(workTime.size() == 4) {
-            return !(workTime.get(2) < GlobalTime.getHours() && GlobalTime.getHours() < workTime.get(3));
-        }
-        return true;
-    }
-
-    public void setWorkTime(int openingHour, int closingHour) {
-        workTime.clear();
-        workTime.add(openingHour);
-        workTime.add(closingHour);
-    }
-
-    public void setWorkTime(int openingHour, int closingHour, int lunchStart, int lunchEnd) {
-        workTime.clear();
-        workTime.add(openingHour);
-        workTime.add(closingHour);
-        workTime.add(lunchStart);
-        workTime.add(lunchEnd);
-    }
-
-    public ArrayList<Integer> getWorkTime() {
-        return workTime;
-    }
+//    public boolean isWorking(){
+//        if(workTime.isEmpty()){
+//            return true;
+//        }
+//        if(!(workTime.get(0) < GlobalTime.getHours() && GlobalTime.getHours() < workTime.get(1))) {
+//            return false;
+//        }
+//        if(workTime.size() == 4) {
+//            return !(workTime.get(2) < GlobalTime.getHours() && GlobalTime.getHours() < workTime.get(3));
+//        }
+//        return true;
+//    }
+//
+//    public void setWorkTime(int openingHour, int closingHour) {
+//        workTime.clear();
+//        workTime.add(openingHour);
+//        workTime.add(closingHour);
+//    }
+//
+//    public void setWorkTime(int openingHour, int closingHour, int lunchStart, int lunchEnd) {
+//        workTime.clear();
+//        workTime.add(openingHour);
+//        workTime.add(closingHour);
+//        workTime.add(lunchStart);
+//        workTime.add(lunchEnd);
+//    }
+//
+//    public ArrayList<Integer> getWorkTime() {
+//        return workTime;
+//    }
 
     public String getName() {
         return name;
@@ -102,24 +102,24 @@ public abstract class ThreadBuilding implements Serializable {
         newService.start();
     }
 
-    private void placeHero(BasicHero hero) {
-        ArrayList<String> squaresExits = new ArrayList<>();
-        squaresExits.add(IdConverter.convertToStringID(IdConverter.convertToIntID(placement).get(0)-1, IdConverter.convertToIntID(placement).get(1)));
-        squaresExits.add(IdConverter.convertToStringID(IdConverter.convertToIntID(placement).get(0), IdConverter.convertToIntID(placement).get(1)-1));
-        squaresExits.add(IdConverter.convertToStringID(IdConverter.convertToIntID(placement).get(0)+1, IdConverter.convertToIntID(placement).get(1)));
-        squaresExits.add(IdConverter.convertToStringID(IdConverter.convertToIntID(placement).get(0), IdConverter.convertToIntID(placement).get(1)+1));
-        squaresExits = squaresExits.stream().filter(x->!game.getMap().getSquare(x).isPeacefulOccupied() && !game.getMap().getSquare(x).isObstacle() && !game.getMap().getSquare(x).isBuilding()).collect(Collectors.toCollection(ArrayList::new));
-        Random random = new Random();
-        int rand = random.nextInt(squaresExits.size());
-        game.getHeroPlacement().put(hero, squaresExits.get(rand));
-        game.getMap().getSquare(squaresExits.get(rand)).setPeacefulOccupancy(hero);
-    }
+//    private void placeHero(BasicHero hero) {
+//        ArrayList<String> squaresExits = new ArrayList<>();
+//        squaresExits.add(IdConverter.convertToStringID(IdConverter.convertToIntID(placement).get(0)-1, IdConverter.convertToIntID(placement).get(1)));
+//        squaresExits.add(IdConverter.convertToStringID(IdConverter.convertToIntID(placement).get(0), IdConverter.convertToIntID(placement).get(1)-1));
+//        squaresExits.add(IdConverter.convertToStringID(IdConverter.convertToIntID(placement).get(0)+1, IdConverter.convertToIntID(placement).get(1)));
+//        squaresExits.add(IdConverter.convertToStringID(IdConverter.convertToIntID(placement).get(0), IdConverter.convertToIntID(placement).get(1)+1));
+//        squaresExits = squaresExits.stream().filter(x->!game.getMap().getSquare(x).isPeacefulOccupied() && !game.getMap().getSquare(x).isObstacle() && !game.getMap().getSquare(x).isBuilding()).collect(Collectors.toCollection(ArrayList::new));
+//        Random random = new Random();
+//        int rand = random.nextInt(squaresExits.size());
+//        game.getHeroPlacement().put(hero, squaresExits.get(rand));
+//        game.getMap().getSquare(squaresExits.get(rand)).setPeacefulOccupancy(hero);
+//    }
 
     public void endService(ThreadBuildingService service) {
         serviceAction(service.getHeroOccupancy());
-        if(!(service.getHeroOccupancy() instanceof NPC)) {
-            placeHero(service.getHeroOccupancy());
-        }
+//        if(!(service.getHeroOccupancy() instanceof NPC)) {
+//            placeHero(service.getHeroOccupancy());
+//        }
         removeService(service);
         synchronized (service.getHeroOccupancy().getLock()) {
             service.getHeroOccupancy().setInBuilding(false);

@@ -24,7 +24,7 @@ public class ThreadBuildingService extends Thread implements Serializable {
     public void run() {
         try {
             while (timeLeft > 0) {
-                Thread.sleep(1000); // ждем 1 сек
+                Thread.sleep(1000);
                 synchronized (this) {
                     timeLeft--;
                 }
