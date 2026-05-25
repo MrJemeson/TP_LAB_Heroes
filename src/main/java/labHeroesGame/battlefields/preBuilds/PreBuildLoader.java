@@ -2,11 +2,6 @@ package labHeroesGame.battlefields.preBuilds;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.google.gson.Gson;
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.security.AnyTypePermission;
-import com.thoughtworks.xstream.security.NoTypePermission;
-import com.thoughtworks.xstream.security.NullPermission;
-import com.thoughtworks.xstream.security.PrimitiveTypePermission;
 import labHeroesGame.Render;
 
 import java.io.*;
@@ -47,22 +42,5 @@ public class PreBuildLoader {
                 e.printStackTrace();
             }
         }
-//        XStream xStream = new XStream();
-//        xStream.addPermission(AnyTypePermission.ANY);
-//        xStream.allowTypes(new Class[]{PreBuild.class});
-//        xStream.allowTypesByWildcard(new String[] {
-//                "labHeroesGame.**"
-//        });
-//        xStream.processAnnotations(PreBuild.class);
-//        for (File file : files) {
-//            try (FileReader fileReader = new FileReader(file)) {
-//                PreBuild preBuild = (PreBuild) xStream.fromXML(fileReader, PreBuild.class);
-//                MapPreBuilds.getCustomPreBuilds().add(preBuild);
-//                Render.displayPreBuildLoaded(file.getName());
-//            } catch (IOException e) {
-//                Render.displayPreBuildLoadError(file.getName());
-//                e.printStackTrace();
-//            }
-//        }
     }
 }

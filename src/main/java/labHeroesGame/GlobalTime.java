@@ -24,6 +24,14 @@ public class GlobalTime extends Thread implements Serializable {
         return getHours() + ":" + ((getMinutes()/10 == 0)?("0"+getMinutes()):(getMinutes()));
     }
 
+    public void setHours(int hours) {
+        GlobalTime.hours = hours;
+    }
+
+    public void setMinutes(int minutes) {
+        GlobalTime.minutes = minutes;
+    }
+
     public void run() {
         while(true) {
             synchronized (this) {

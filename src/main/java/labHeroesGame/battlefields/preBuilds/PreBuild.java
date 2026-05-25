@@ -1,6 +1,5 @@
 package labHeroesGame.battlefields.preBuilds;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
 import labHeroesGame.authorization.User;
 
 import java.io.Serial;
